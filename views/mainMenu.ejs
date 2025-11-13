@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메인메뉴</title>
+  <!-- <link rel="icon" type="images/png" href="../Image/Receipt/receiptInfoTop.png"> -->
+  <link rel="stylesheet" href="../Css/mainMenu.css?ver=0.01">
+</head>
+<body>
+  <header>
+    <div style="margin-top: 50px;">
+      <img src="../Image/Main/btn_logout.png" alt="로그아웃"
+        style="-webkit-user-drag: none; cursor: pointer; margin-left: -560px;" onclick="LogOutPopup(true);">
+      </img>
+      <div>
+        <!-- <img src="../Image/Main/btn_001.png" alt="병동간호" style="-webkit-user-drag: none; cursor: pointer;"></img>
+          <span style="margin-left: 10px;"> -->
+        <span id="진료실">
+          <img src="../Image/Main/btn_002.png" alt="진료실" style="-webkit-user-drag: none; cursor: pointer;"
+          onclick="OpenPop('diagnosis')"></img>
+        </span>
+        <span id="청구심사" style="margin-left: 4px;">
+          <img src="../Image/Main/btn_003.png" alt="청구심사" style="-webkit-user-drag: none; cursor: pointer;" onclick="OpenPop('claimReview')"></img>
+        </span>
+        <span id="기초정보" style="margin-left: 4px;">
+          <img src="../Image/Main/btn_004.png" alt="기초정보" style="-webkit-user-drag: none; cursor: pointer;"            
+            onclick="OpenPop(29, '기초정보')"></img>
+        </span>
+        <span id="통계" style="margin-left: 4px;">
+          <img src="../Image/Main/btn_008.png" alt="통계" style="-webkit-user-drag: none; cursor: pointer" ;></img>
+        </span>
+      </div>
+      <div style="margin-top: 4px; margin-left: -162px;">
+        <span id="접수">
+          <img src="../Image/Main/btn_005.png" alt="접수" style="-webkit-user-drag: none; cursor: pointer;"
+            onclick="OpenPop('receipt')"></img>           
+        </span>
+        <span id="수납" style="margin-left: 4px;">
+          <img src="../Image/Main/btn_006.png" alt="수납" style="-webkit-user-drag: none; cursor: pointer;"
+            onclick="OpenPop('acceptance')"></img>            
+        </span>
+        <span id="병원관리" style="margin-left: 4px;">
+          <img src="../Image/Main/btn_007.png" alt="병원관리" style="-webkit-user-drag: none; cursor: pointer;"            
+            onclick="OpenPop(28, '병원관리')"></img>
+        </span>
+      </div>
+    </div>
+    <div id="공지사항" style="margin-top: 40px;">
+      <img src="../Image/Main/btn_notice.png" alt="공지사항" style="-webkit-user-drag: none;"></img>
+    </div>
+    <div style="margin-top: 10px;">
+      <span>
+        <img src="../Image/Main/btn_009.png" alt="빈칸" style="-webkit-user-drag: none;"></img>
+      </span>
+    </div>
+    <div style="margin-top: 30px;">
+      <img src="../Image/Main/botom logo.png" alt="로고" style="-webkit-user-drag: none;"></img>
+    </div>
+    <div class="logoutPopup" id="logoutPopup">
+      <div style="margin-top: -500px;">
+        <img src="../Image/Logout/logout_bg.png" alt="로고" style="-webkit-user-drag: none;"></img>
+      </div>
+      <div style="margin-top: -140px;">
+        <img src="../Image/Logout/logoutText.png" alt="내용" style="-webkit-user-drag: none;"></img>
+      </div>
+      <div style="margin:-95px 0px 0px 430px;">
+        <img src="../Image/Logout/logout_X.png" alt="취소버튼" style="-webkit-user-drag: none;"
+          onclick="LogOutPopup(false);"></img>
+      </div>
+      <div style="cursor: pointer; margin-top: 85px;"><img src="../Image/Logout/logout_Btn.png" alt="확인버튼"
+          style="-webkit-user-drag: none;" onclick="location.href ='login'"></img>
+      </div>
+    </div>
+
+</body>
+<script src="mainMenu.js"></script>
+
+</html>

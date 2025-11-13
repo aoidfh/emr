@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="popup" name="title">환자조회</title>
+    <!-- <link rel="icon" type="images/png" href="../Image/Receipt/receiptInfoTop.png"> -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소검색 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- jQuery -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../Css/common.css">
+    <link rel="stylesheet" href="../Css/popup.css">
+
+    <link rel="stylesheet" href="../Css/palette.css">
+    <link rel="stylesheet" href="../Css/popup_design.css">
+    <link rel="stylesheet" href="../Css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+</head>
+
+<body id="body"> 
+    <!-- 기초정보 -->
+    <div class="basicInfoPopup borderStyle" id="basicInfoPopup" style="min-width: 1000px;">
+        <ul class="basicInfoTabs" style="width: 100%;">
+            <div style="margin-left: 3px;">
+                <li class="basicInfoTab-link current mousePointer" id="basicInfo1" data-tab="basicInfoTab-1"
+                    style="margin-left: -6px;">처방코드</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo1" data-tab="basicInfoTab-2" style="margin-left: -6px;">
+                    병원코드</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo2" data-tab="basicInfoTab-3" style="margin-left: -6px;">
+                    상병</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo3" data-tab="basicInfoTab-4" style="margin-left: -6px;">
+                    용법/검체/부위/방법 설정</li>
+                <!-- <li class="basicInfoTab-link" id="basicInfo4" data-tab="basicInfoTab-5" style="margin-left: -6px;">
+                    슬립코드</li> -->
+                <li class="basicInfoTab-link mousePointer" id="basicInfo5" data-tab="basicInfoTab-6" style="margin-left: -6px;">
+                    묶음코드</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo6" data-tab="basicInfoTab-7" style="margin-left: -6px;">
+                    가산설정</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo7" data-tab="basicInfoTab-8" style="margin-left: -6px;">
+                    위탁업체가산설정</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo8" data-tab="basicInfoTab-9" style="margin-left: -6px;">
+                    기타설정</li>
+                <li class="basicInfoTab-link mousePointer" id="basicInfo9" data-tab="basicInfoTab-10" style="margin-left: -6px;">
+                    (관리자용)</li>
+            </div>
+        </ul>
+
+        <!-- 2024-01-20 작업 -->
+        <div id="basicInfoTab-1" class="basicInfoTab-content current commonTab basicInfoTabBg">
+            <div class="basicInfoTabContentWrap">
+                <div class="basicInfoTabContent">
+                    <!-- 코드조회 -->
+                    <div class="half">
+                        <div class="title">
+                            코드조회
+                        </div>
+                        <div class="contentIn">
+                            <div name="basicInfoTab1CodeSearchForm" id="basicInfoTab1CodeSearchForm">
+                                <div class="contentInTopWrap">
+                                    <div class="item item2">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="CodeSearchType2" value="명칭" checked>
+                                            명칭
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                        <label class="CmRadio">
+                                            <input type="radio" name="CodeSearchType2" value="코드">
+                                            코드
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                        <label class="CmRadio">
+                                            <input type="radio" name="CodeSearchType2" value="분류번호">
+                                            분류번호
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                        <label class="CmRadio">
+                                            <input type="radio" name="CodeSearchType2" value="주성분코드">
+                                            주성분코드
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="item item3">
+                                        <input type="text" id="codeSearch" name="CodeSearchInput" class="ip blue h50"
+                                            placeholder="조회" onkeyup="if(window.event.keyCode==13){SearchBtn_Click()}">
+                                    </div>
+                                    <div class="item item4">
+                                        <div class="btn btn-blue h50" onclick="SearchBtn_Click()">
+                                            <div style="margin: 15px 0px 0px 10px;">
+                                                검 색
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item item5">
+                                        <label class="CmInputBox">
+                                            <input type="checkbox" id="masterCheck1" />
+                                            수가
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                        <label class="CmInputBox">
+                                            <input type="checkbox" id="masterCheck2" />
+                                            약가
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                        <label class="CmInputBox">
+                                            <input type="checkbox" id="masterCheck3" />
+                                            치료재료
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="item item6">
+                                        <label class="CmInputBox">
+                                            <input type="checkbox" id="masterDelCheck" name="DelCheck" />
+                                            삭제 코드 포함
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 마스터코드 -->
+                            <div class="contentInSection w100">
+                                <div class="contentInTitle">
+                                    마스터코드
+                                </div>
+                                <!-- 마스터코드 TABLE -->
+                                <div class="contentInTableWrap " id="MasterCodeTable">
+                                    <div class="line_content scrollBar">
+                                        <div class="line_content_table" id="masterCode">
+                                            <div class="line head">
+                                                <div class="line_cell code nowrap text_center">
+                                                    코드
+                                                </div>
+                                                <div class="line_cell code_name nowrap nowrap text_center">
+                                                    명칭
+                                                </div>
+                                                <div class="line_cell code nowrap nowrap text_center">
+                                                    비고
+                                                </div>
+                                                <div class="line_cell code nowrap nowrap text_center">
+                                                    적용일자
+                                                </div>
+                                                <div class="line_cell code nowrap nowrap text_center">
+                                                    급여적용
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 병원코드 -->
+                            <div class="contentInSection w100">
+                                <div class="contentInTitle">
+                                    병원코드
+                                </div>
+                                <!-- 병원코드 TABLE -->
+                                <div class="contentInTableWrap" id="HospitalCodeTable">
+                                    <div class="line_content scrollBar">
+                                        <div class="line_content_table" id="hsptlCode">
+                                            <div class="line head">
+                                                <div class="line_cell idx nowrap text_center bg_blue"></div>
+                                                <div class="line_cell code nowrap text_center">
+                                                    처방코드
+                                                </div>
+                                                <div class="line_cell code nowrap text_center">
+                                                    청구코드
+                                                </div>
+                                                <div class="line_cell code_name nowrap nowrap text_center">
+                                                    명칭
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 코드정보 -->
+                    <div class="half">
+                        <div class="title">
+                            코드정보
+                        </div>
+                        <div class="contentIn">
+                            <div class="contentInCodeInfoTop h30">
+                                <div class="item">
+                                    <div class="btn btn-blue round codeInfoTopBtn" onclick="Cmd저장_Click()">
+                                        <span class="material-icons">
+                                            save
+                                        </span>
+                                        저 장
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="btn btn-blue round codeInfoTopBtn" onclick="Delete병원코드양방()">
+                                        <span class="material-icons">
+                                            delete
+                                        </span>
+                                        삭 제
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="btn btn-blue round codeInfoTopBtn">
+                                        <span class="material-icons">
+                                            content_copy
+                                        </span>
+                                        복 사
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="btn btn-blue round codeInfoTopBtn">
+                                        <span class="material-icons">
+                                            publish
+                                        </span>
+                                        코드추가
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 기본정보 -->
+                            <div class="contentInSection codeInfoItem">
+                                <div class="contentInTitle">
+                                    기본정보
+                                </div>
+                                <div class="contentInForm">
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            처방코드
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="InfoCode1" class="ip blue h20 readonly" value=""
+                                                readonly>
+                                        </div>
+                                        <div class="formTitle">
+                                            청구코드
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="InfoCode2" class="ip blue h20 readonly" value=""
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            한글명칭
+                                        </div>
+                                        <div class="formContent">
+                                            <textarea id="InfoCodeName" class="txtarea blue h30"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            영어명칭
+                                        </div>
+                                        <div class="formContent">
+                                            <textarea id="InfoCodeNameEng" class="txtarea blue h30 readonly"
+                                                readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            표시명칭
+                                        </div>
+                                        <div class="formContent">
+                                            <textarea id="InfoCodeNameMark" class="txtarea blue h30"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            항목구분
+                                        </div>
+                                        <div class="formContent short">
+                                            <select class="slc blue h20" id="InfoCodeItem">
+                                                <option>-</option>
+                                            </select>
+                                        </div>
+                                        <div class="formTitle">
+                                            코드구분
+                                        </div>
+                                        <div class="formContent short">
+                                            <select class="slc blue h20" id="InfoCodeCode">
+                                                <option>-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            행위구분
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w70">
+                                                <select class="slc blue h20" id="InfoCodeActn">
+                                                    <option>-</option>
+                                                </select>
+                                            </div>
+                                            <div class="w29">
+                                                <label class="CmInputBox">
+                                                    <input type="checkbox" id="lue수술코드" />
+                                                    수술코드
+                                                    <span class="CmCheckIcon"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            처방분류
+                                        </div>
+                                        <div class="formContent">
+                                            <input type="text" class="ip blue h20 readonly" id="inputNslgy" readonly>
+                                            <!-- <select class="slc blue h20" id="">
+                                                <option name="주로 그람양성, 음성균에 작용하는 것">주로 그람양성, 음성균에 작용하는 것</option>
+                                            </select> -->
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            알림메시지
+                                        </div>
+                                        <div class="formContent">
+                                            <textarea class="txtarea blue h30" id="lue처방알림"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 투약 -->
+                            <div class="contentInSection codeInfoItem">
+                                <div class="contentInTitle">
+                                    투 약
+                                </div>
+                                <div class="contentInForm">
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            제약회사
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w60">
+                                                <input type="text" id="CompName" class="ip blue h20 " value="">
+                                            </div>
+                                            <div class="w40 formContentFlex formContentRight">
+                                                <label class="CmRadio">
+                                                    <input type="radio" name="CompRadio" value="" id="lue원내" checked>
+                                                    원내
+                                                    <span class="CmCheckIcon"></span>
+                                                </label>
+                                                <label class="CmRadio">
+                                                    <input type="radio" name="CompRadio" value="">
+                                                    원외
+                                                    <span class="CmCheckIcon"></span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            기본투여
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="formContentTable">
+                                                <div class="cell_line head">
+                                                    <div class="cell">
+                                                        투여량1회
+                                                    </div>
+                                                    <div class="cell">
+                                                        횟수
+                                                    </div>
+                                                    <div class="cell">
+                                                        일수
+                                                    </div>
+                                                </div>
+                                                <div class="cell_line">
+                                                    <div class="cell">
+                                                        <input type="input" class="ip text_center" id="InfoDosage1Time"
+                                                            value="">
+                                                    </div>
+                                                    <div class="cell">
+                                                        <input type="input" class="ip text_center" id="InfoDosageTimes"
+                                                            value="">
+                                                    </div>
+                                                    <div class="cell">
+                                                        <input type="input" class="ip text_center" id="InfoDosageDays"
+                                                            value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            투여방법
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w90">
+                                                <select class="slc blue h20 readonly" id="InfoCodeMthd">
+                                                    <option name="기본">기본</option>
+                                                    <option name="몸무게별">몸무게별</option>
+                                                    <option name="나이별">나이별</option>
+                                                </select>
+                                            </div>
+                                            <div class="w10 formBtn">
+                                                <span class="material-icons">
+                                                    settings
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            규 격
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="standard" class="ip blue h20 readonly" value=""
+                                                readonly>
+                                        </div>
+                                        <div class="formTitle">
+                                            단 위
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="unit" class="ip blue h20 readonly" value="" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            의약분업예외구분
+                                        </div>
+                                        <div class="formContent">
+                                            <select class="slc blue h20" id="excptn">
+                                                <option name=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            복양용법
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w95">
+                                                <select class="slc blue h20" id="usage">
+                                                    <option name="기본">기본</option>
+                                                </select>
+                                            </div>
+                                            <div class="w5 formBtn">
+                                                <span class="material-icons">
+                                                    close
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            분류번호
+                                        </div>
+                                        <div class="formContent short">
+                                            <select class="slc blue h20" id="nslgy">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                        <div class="formTitle">
+                                            주성분코드
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="comptCode" class="ip blue h20 " value="">
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            이미지
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w90">
+                                                <div class="formImgPrevWrap">
+                                                    이미지 데이터 없음
+                                                </div>
+                                            </div>
+                                            <div class="w10 formImgDelBtn">
+                                                <span class="material-icons">
+                                                    delete
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="w49">
+                                            <input type="button" class="btn btn-blue round" value="약품설명">
+                                        </div>
+                                        <div class="w49">
+                                            <input type="button" class="btn btn-blue round" id="basicInfoTab1InfoBtnGo"
+                                                value="약품정보"
+                                                onclick="window.open('https://cp.druginfo.co.kr/5Company/detail/product_cp.aspx?ID=641600660')">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- 검사 -->
+                            <div class="contentInSection codeInfoItem">
+                                <div class="contentInTitle">
+                                    검 사
+                                </div>
+                                <div class="contentInForm">
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            위탁업체
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w90">
+                                                <select class="slc blue h20" id="lue위탁업체">
+                                                </select>
+                                            </div>
+                                            <div class="w10 formBtn">
+                                                <span class="material-icons">
+                                                    change_circle
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            위탁구분
+                                        </div>
+                                        <div class="formContent">
+                                            <select class="slc blue h20 w50" id="lue위탁구분">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            검사항목
+                                        </div>
+                                        <div class="formContent short">
+                                            <select class="slc blue h20" id="lue검사항목">
+
+                                            </select>
+                                        </div>
+                                        <div class="formTitle">
+                                            검사단위
+                                        </div>
+                                        <div class="formContent short">
+                                            <input type="text" id="lue검사단위" class="ip blue h20" value="">
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            검사용기
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w50">
+                                                <select class="slc blue h20" id="lue검사용기">
+                                                </select>
+                                            </div>
+                                            <div class="w49">
+                                                <label class="CmInputBox">
+                                                    <input type="checkbox" id="lue라벨출력" />
+                                                    검사명칭 라벨출력
+                                                    <span class="CmCheckIcon"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            참고수치
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="w90">
+                                                <input type="text" id="lue참고수치" class="ip blue h20" value="0">
+                                            </div>
+                                            <div class="w10 formBtn">
+                                                <span class="material-icons">
+                                                    settings
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            기준수치
+                                        </div>
+                                        <div class="formContent">
+                                            <div class="formContentTable">
+                                                <div class="cell_line head">
+                                                    <div class="cell w20">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        남 자
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        여 자
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        소아남
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        소아여
+                                                    </div>
+                                                </div>
+                                                <div class="cell_line btn-blue">
+                                                    <div class="cell w20 bold">
+                                                        LOW
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center bg_blue"
+                                                            id="InfoCheckMaleLow" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center bg_blue"
+                                                            id="InfoCheckFemaleLow" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center bg_blue"
+                                                            id="InfoCheckChildMaleLow" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center bg_blue"
+                                                            id="InfoCheckChildFemaleLow" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="cell_line">
+                                                    <div class="cell w20 bold">
+                                                        HIGH
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center"
+                                                            id="InfoCheckMaleHigh" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center"
+                                                            id="InfoCheckFemaleHigh" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center"
+                                                            id="InfoCheckChildMaleHigh" value="">
+                                                    </div>
+                                                    <div class="cell w20">
+                                                        <input type="input" class="ip text_center"
+                                                            id="InfoCheckChildFemaleHigh" value="">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            검사결과
+                                        </div>
+                                        <div class="formContent">
+                                            <textarea id="" class="txtarea blue h30"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            검사 종류
+                                        </div>
+                                        <div class="formContent">
+                                            <label class="CmInputBox">
+                                                <input type="checkbox" id="lue진단" name="" />
+                                                진단
+                                                <span class="CmCheckIcon"></span>
+                                            </label>
+                                            <label class="CmInputBox">
+                                                <input type="checkbox" id="lue병리" name="" />
+                                                병리
+                                                <span class="CmCheckIcon"></span>
+                                            </label>
+                                            <label class="CmInputBox">
+                                                <input type="checkbox" id="lue핵의학" name="" />
+                                                핵의학
+                                                <span class="CmCheckIcon"></span>
+                                            </label>
+                                            <label class="CmInputBox">
+                                                <input type="checkbox" name="" />
+                                                해당없음
+                                                <span class="CmCheckIcon"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            검체종류
+                                        </div>
+                                        <div class="formContent">
+                                            <select class="slc blue h20">
+                                                <option name=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 기타 -->
+                            <div class="contentInSection codeInfoItem">
+                                <div class="contentInTitle">
+                                    기 타
+                                </div>
+                                <div class="contentInForm">
+                                    <div class="formLine">
+                                        <div class="formTitle">
+                                            전달부서
+                                        </div>
+                                        <div class="formContent">
+                                            <select class="slc blue h20" id="lue전달부서">
+                                                <option>전달부서 없음</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        특정코드
+                                    </div>
+                                    <div class="formContent">
+                                        <select class="slc blue h20" id="lue특정코드">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        팍스연동
+                                    </div>
+                                    <div class="formContent">
+                                        <select class="slc blue h20" id="lue팍스연동">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        영수증항목
+                                    </div>
+                                    <div class="formContent">
+                                        <select class="slc blue h20" id="lue영수증항목">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        상병코드
+                                    </div>
+                                    <div class="formContent">
+                                        <input type="text" id="lue상병코드" class="ip blue h20" value="">
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        연결코드
+                                    </div>
+                                    <div class="formContent">
+                                        <div class="w90">
+                                            <input type="text" id="lue연결코드" class="ip blue h20" value="">
+                                        </div>
+                                        <div class="w10 formBtn">
+                                            <span class="material-icons">
+                                                settings
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formTitle">
+                                        하부코드
+                                    </div>
+                                    <div class="formContent">
+                                        <div class="w90">
+                                            <input type="text" id="" class="ip blue h20" value="">
+                                        </div>
+                                        <div class="w10 formBtn">
+                                            <span class="material-icons">
+                                                settings
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formLine etc_radio_wrap">
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="" checked>
+                                            기본
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            정액수가제외(요양병원)
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            예방주사
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            항결핵약제(100/100)
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            항정신성의약품
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            선택진료
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            식이
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            마약
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            내용액제사유
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            비정형항정신병주사제
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            인공수정체(DRG)
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                    <div class="etc_radio_wrap">
+                                        <label class="CmRadio">
+                                            <input type="radio" name="etc" value="">
+                                            PCA(DRG)
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 단가 -->
+                            <div class="contentInSection w100 contentCodeInfoUnitPrice">
+                                <div class="contentInTitle">
+                                    단 가
+                                </div>
+                                <div class="contentInfoUnitTop">
+                                    <div class="unitTopTitle">
+                                        급여적용
+                                    </div>
+                                    <div class="unitTopContent">
+                                        <select class="slc blue h20" id="lue단가정보_급여적용">
+                                            <option name="적용일자적용">적용일자적용</option>
+                                        </select>
+                                    </div>
+                                    <div class="unitTopTitle">
+                                        적용일자
+                                    </div>
+                                    <div class="unitTopContent">
+                                        <input type="date" class="slc blue h20" id="priceInfoAdd" name="today">
+                                        <!-- <select class="slc blue h20">
+                                            <option name="2024-01-21">2024-01-21</option>
+                                        </select> -->
+                                    </div>
+                                    <div class="unitTopTitle">
+                                        금지일자
+                                    </div>
+                                    <div class="unitTopContent">
+                                        <input type="date" class="slc blue h20" id="lue금지일자">
+                                        <!-- <select class="slc blue h20">
+                                            <option name="2024-01-21">2024-01-21</option>
+                                        </select> -->
+                                    </div>
+                                    <div class="unitTopTitle">
+                                        대체코드
+                                    </div>
+                                    <div class="unitTopContent">
+                                        <input type="text" id="diffCode" class="ip blue h20" value="">
+                                    </div>
+                                    <div class="unitTopContent">
+                                        <label class="CmInputBox">
+                                            <input type="checkbox" id="lue업데이트미적용" name="" />
+                                            업데이트미적용
+                                            <span class="CmCheckIcon"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="contentInfoUnitTop">
+                                    <div class="unitTopBtnWrap">
+                                        <div class="btn btn-blue round codeInfoTopBtn" onclick="Cmd단가정보_추가_Click()">
+                                            <span class="material-icons">
+                                                add_circle
+                                            </span>
+                                            추가
+                                        </div>
+                                    </div>
+                                    <div class="unitTopBtnWrap">
+                                        <div class="btn btn-blue round codeInfoTopBtn" onclick="Cmd단가정보_삭제_Click()">
+                                            <span class="material-icons">
+                                                remove_circle
+                                            </span>
+                                            삭제
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 단가 TABLE -->
+                                <div class="contentInTableWrap" id="PriceUnitTable">
+                                    <div class="line_content scrollBar">
+                                        <div class="line_content_table">
+                                            <div class="line head">
+                                                <div class="line_cell idx nowrap text_center bg_blue"></div>
+                                                <div class="line_cell nowrap text_center">
+                                                    적용일자
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    보험
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    자보
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    산재
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    상대점수
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    보험단가
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    자보단가
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    산재단가
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    검진단가
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    일반단가
+                                                </div>
+                                                <div class="line_cell nowrap text_center">
+                                                    사용장려
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="basicInfoTab-2" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="display: flex;">
+                <div style="flex: 3; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd초진료')">초진료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd재진료')">재진료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd의약품관리료등')">의약품관리료등</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd응급회송료')">응급회송료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd가정간호')">가정간호</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd만성질환관리료')">만성질환관리료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd집중치료실')">집중치료실</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd신생아')">신생아</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd안치료')">안치료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd내복약')">내복약</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd외복약')">외복약</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd피하및근육주사')">피하 및 근육주사</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd정맥주사')">정맥주사</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd수액주사')">수액주사</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd기타주사')">기타주사</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd특수재료')">특수재료(비사용)</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd수혈')">수혈</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd마취료')">마취료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd이학요법료')">이학요법료</button>
+
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd정신요법료')">정신요법료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd처치및수술료')">처치 및 수술료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd캐스트')">캐스트</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd처치및수술기타')">처치 및 수술 기타</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd자체검사')">자체검사</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd위탁검사')">위탁검사</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd방사선진단')">방사선 진단</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd방사선치료')">방사선 치료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmdCT진단료')">CT 진단료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmdMRI진단료')">MRI 진단료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmdPET진단료')">PET 진단료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd초음파진단료')">초음파 진단료</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd특수재료장루')">특수재료 장루</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd장기요양정액수가')">장기요양 정액수가</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd호스피스정액수가')">호스피스 정액수가</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd정신과정액')">정신과 정액</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd정신과투약')">정신과 투약</button>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd확인수수료')">확인수수료</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd병원특정수가')">병원특정 수가</button>
+                            <button class="hCodeBtn" onclick="Cmd_Click('cmd기타수가')">기타수가</button>
+                        </div>
+                        <input type="checkbox" id="hsptlInfoCheck"> 최근 적용 일자만 조회
+                    </div>
+                </div>
+                <div style="flex: 7; width: 100%;">
+                    <div class="borderStyle scrollBar"
+                        style=" margin-top: -1px; overflow: scroll; overflow-x: hidden; border: none;height: 889px;"
+                        id="hsptlInfo">
+                        <table border="1" bgcolor="white" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">처방코드</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">청구코드</th>
+                                    <th class="border-style" style="width: 30%; font-size: 12px;">명칭</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">항목</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">코드구분</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">행위</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">급여</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">특정</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">단가</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">적용일자</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="hsptlInfoTable" style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="basicInfoTab-3" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="display: flex;">
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;"></div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            상병분류
+                            <select id="dxDivisonSelect" style="width: 400px;">
+                                <option value="전체">(A00-Z99)전체상병</option>
+                                <option value="A">A00-A99</option>
+                                <option value="B">B00-B99</option>
+                                <option value="C">C00-C99</option>
+                                <option value="D">D00-D99</option>
+                                <option value="E">E00-E99</option>
+                                <option value="F">F00-F99</option>
+                                <option value="G">G00-G99</option>
+                                <option value="H">H00-H99</option>
+                                <option value="I">I00-I99</option>
+                                <option value="J">J00-J99</option>
+                                <option value="K">K00-K99</option>
+                                <option value="L">L00-L99</option>
+                                <option value="M">M00-M99</option>
+                                <option value="N">N00-N99</option>
+                                <option value="O">O00-O99</option>
+                                <option value="P">P00-P99</option>
+                                <option value="Q">Q00-Q99</option>
+                                <option value="R">R00-R99</option>
+                                <option value="S">S00-S99</option>
+                                <option value="T">T00-T99</option>
+                                <option value="U">U00-U99</option>
+                                <option value="V">V00-V99</option>
+                                <option value="W">W00-W99</option>
+                                <option value="X">X00-X99</option>
+                                <option value="Y">Y00-Y99</option>
+                                <option value="Z">Z00-Z99</option>
+                            </select>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            검색조건
+                            <select id="dxSearchSelect" style="width: 150px;">
+                                <option value="0">상병코드</option>
+                                <option value="1">한글명칭</option>
+                                <option value="2">영문명칭</option>
+                            </select>
+                            <input type="text" id="dxSearchInput" style="width: 291px;"
+                                onkeyup="if(window.event.keyCode==13){RefreshDX_기준(true)}">
+                            <img src="../Image/Public/refreshBtn.png" alt="새로고침"
+                                style="vertical-align: top; margin-top: 0px; cursor: pointer;"
+                                onclick="RefreshDX_기준(true)">
+                        </div>
+                    </div>
+                    <div class="borderStyle scrollBar" id="dxTable"
+                        style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 818px;">
+                        <table border="1" bgcolor="white" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">상병코드</th>
+                                    <th class="border-style" style="width: 40%; font-size: 12px;">한글명칭</th>
+                                    <th class="border-style" style="width: 40%; font-size: 12px;">영문명칭</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="dxTableList" style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            단축코드
+                            <input type="text" id="dxInput1" style="width: 400px;">
+                        </div>
+                        <div style="margin-top: 3px;">
+                            상병코드
+                            <input type="text" id="dxInput2" style="width: 400px;" readonly>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            한글명칭
+                            <input type="text" id="dxInput3" style="width: 400px;" readonly>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            영문명칭
+                            <input type="text" id="dxInput4" style="width: 400px;">
+                        </div>
+                        <div style="margin-top: 3px;">
+                            표시명칭
+                            <input type="text" id="dxInput5" style="width: 400px;">
+                        </div>
+                        <div style="margin-top: 3px;">
+                            특정기호
+                            <select id="dxInput6" style="width: 400px;"></select>
+                        </div>
+                        <div style="margin: 3px 10px 0px 0px; float: right;">
+                            <button style="width: 100px;" onclick="Add_Click()">추가</button>
+                            <button style="width: 100px;" onclick="Save_Click()">저장</button>
+                            <button style="width: 100px;" onclick="Delete_Click()">삭제</button>
+                        </div>
+                        <div style="margin-top: 23px;">
+                            상병분류
+                            <select id="dxDivisonSelect1" style="width: 400px;">
+                                <option value="전체">(A00-Z99)전체상병</option>
+                                <option value="A">A00-A99</option>
+                                <option value="B">B00-B99</option>
+                                <option value="C">C00-C99</option>
+                                <option value="D">D00-D99</option>
+                                <option value="E">E00-E99</option>
+                                <option value="F">F00-F99</option>
+                                <option value="G">G00-G99</option>
+                                <option value="H">H00-H99</option>
+                                <option value="I">I00-I99</option>
+                                <option value="J">J00-J99</option>
+                                <option value="K">K00-K99</option>
+                                <option value="L">L00-L99</option>
+                                <option value="M">M00-M99</option>
+                                <option value="N">N00-N99</option>
+                                <option value="O">O00-O99</option>
+                                <option value="P">P00-P99</option>
+                                <option value="Q">Q00-Q99</option>
+                                <option value="R">R00-R99</option>
+                                <option value="S">S00-S99</option>
+                                <option value="T">T00-T99</option>
+                                <option value="U">U00-U99</option>
+                                <option value="V">V00-V99</option>
+                                <option value="W">W00-W99</option>
+                                <option value="X">X00-X99</option>
+                                <option value="Y">Y00-Y99</option>
+                                <option value="Z">Z00-Z99</option>
+                            </select>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            검색조건
+                            <select id="dxSearchSelect1" style="width: 150px;">
+                                <option value="0">상병코드</option>
+                                <option value="1">한글명칭</option>
+                                <option value="2">영문명칭</option>
+                            </select>
+                            <input type="text" id="dxSearchInput1" style="width: 291px;"
+                                onkeyup="if(window.event.keyCode==13){RefreshDX_단축(true)}">
+                            <img src="../Image/Public/refreshBtn.png" alt="새로고침"
+                                style="vertical-align: top; margin-top: 0px; cursor: pointer;"
+                                onclick="RefreshDX_단축(true)">
+                        </div>
+
+                    </div>
+                    <div class="borderStyle scrollBar" id="dxTable1"
+                        style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 680px;">
+                        <table border="1" bgcolor="white" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">단축코드</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">상병코드</th>
+                                    <th class="border-style" style="width: 20%; font-size: 12px;">한글명칭</th>
+                                    <th class="border-style" style="width: 20%; font-size: 12px;">영문명칭</th>
+                                    <th class="border-style" style="width: 20%; font-size: 12px;">표시명칭</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="dxTableList1" style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="basicInfoTab-4" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="display: flex;">
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;"></div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            지원부서
+                            <select id="lue지원구분" style="width: 400px;">
+                            </select>
+                            <img src="../Image/Public/refreshBtn.png" alt="새로고침"
+                                style="vertical-align: top; margin-top: 0px; cursor: pointer;"
+                                onclick="Refresh용법List()">
+                            <input type="checkbox" id="chk미사용용법표시"> 미사용 용법 표시
+                        </div>
+                    </div>
+                    <div class="borderStyle scrollBar" id="dxTable"
+                        style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 823px;">
+                        <table border="1" bgcolor="white" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">용법ID</th>
+                                    <th class="border-style" style="width: 40%; font-size: 12px;">명칭</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="usageTable" style="text-align: center;">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="flex: 5; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            <button onclick="NewCodeBtn()">새 용법 추가</button>
+                        </div>
+                        <div style="float: right;">
+                            <input type="checkbox" id="chk사용안함">사용안함
+                        </div>
+                        <div>
+                            코드
+                            <input type="text" id="txt코드" style="width: 400px;" readonly>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            ID
+                            <input type="text" id="txt용법ID" style="width: 400px;">
+                        </div>
+                        <div style="margin-top: 3px;">
+                            명칭
+                            <input type="text" id="txt용법명칭" style="width: 400px;">
+                        </div>
+                        <div>
+                            항목구분
+                            <div style="margin-top: 3px;" id="rdo항목구분">
+                            </div>
+                        </div>
+                        <div style="margin-top: 3px;">
+                            투여횟수
+                            <input type="number" id="txt투여횟수" style="width: 400px;">
+                            투여일수
+                            <input type="number" id="txt투여일수" style="width: 400px;">
+                        </div>
+                        <div style="margin-top: 3px;">
+                            주사행위
+                            <select id="lue주사행위코드" style="width: 400px;"></select>
+                        </div>
+
+                        <div>
+                            액팅설정
+                            <span style="float: right;">
+                                <input type="checkbox" id="lcg액팅설정">기본 액팅설정 사용
+                            </span>
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 2%;"></th>
+                                        <th class="border-style" style="width: 30%; font-size: 12px;">회차</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;">사용</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;">시간</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="grd액팅설정" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <button style="float: right;" onclick="Save용법정보()">저장</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div id="basicInfoTab-5" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="margin: 17px 12px 10px 10px;">
+                <ul class="slipCodeTabs" style="width: 100%;">
+                    <li class="slipCodeTab-link current" id="" data-tab="slipCodeTab-1" style="margin-left: 0px;">
+                        영상의학</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-2">
+                        임상병리</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-3">
+                        물리치료</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-4">
+                        처치</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-5">
+                        캐스트</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-6">
+                        산소</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-7">
+                        수술</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-8">
+                        마취</li>
+                    <li class="slipCodeTab-link" id="" data-tab="slipCodeTab-9">
+                        지시</li>
+                </ul>
+                <div id="slipCodeTab-1" class="slipCodeTab-content current commonTab"
+                    style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                    <div style="height: 750px;">
+                        <div>
+                            <div style="display: flex;">
+                                <div style="flex: 3; width: 100%;">
+                                    <div class="borderStyle" style="margin: -1px; height: 730px; border: none;">
+                                        <table border="1" bgcolor="white" style="width: 100%;">
+                                            <button id="radiologyBtn1"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(0)">CR/DR</button>
+                                            <button id="radiologyBtn2"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(1)">CT</button>
+                                            <button id="radiologyBtn3"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(2)">MRI</button>
+                                            <button id="radiologyBtn4"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(3)">RF</button>
+                                            <button id="radiologyBtn5"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(4)">SONO</button>
+                                            <button id="radiologyBtn6"
+                                                style="width: 16.6%; height: 60px; border: solid 0.5px rgb(197, 220, 235);"
+                                                onclick="RadiologyBtnOnOff(5)">ENDO</button>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="flex: 7; width: 100%;">
+                                    <div style="margin: 5px;">
+                                        구분
+                                        <select style="width: 100px;"></select>
+                                        부위
+                                        <select style="width: 100px;"></select>
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <div class="borderStyle"
+                                            style="overflow: scroll; overflow-x: hidden; border: none; height: 730px; margin-left: 1px;">
+                                            <table border="1" bgcolor="white" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-style" style="width: 1%;"></th>
+                                                        <th class="border-style" style="width: 10%; font-size: 12px;">코드
+                                                        </th>
+                                                        <th class="border-style" style="width: 25%; font-size: 12px;">명칭
+                                                        </th>
+                                                        <th class="border-style" style="width: 4%; font-size: 12px;">1회
+                                                        </th>
+                                                        <th class="border-style" style="width: 4%; font-size: 12px;">진단
+                                                        </th>
+                                                        <th class="border-style" style="width: 4%; font-size: 12px;">병리
+                                                        </th>
+                                                        <th class="border-style" style="width: 4%; font-size: 12px;">핵의학
+                                                        </th>
+                                                        <th class="border-style" style="width: 8%; font-size: 12px;">검체
+                                                        </th>
+                                                        <th class="border-style" style="width: 8%; font-size: 12px;">급여
+                                                        </th>
+                                                        <th class="border-style" style="width: 8%; font-size: 12px;">
+                                                            급여(코드설정)
+                                                        </th>
+                                                        <th class="border-style" style="width: 15%; font-size: 12px;">메모
+                                                        </th>
+                                                        <th class="border-style" style="width: 8%; font-size: 12px;">
+                                                            지원부서
+                                                        </th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin: 30px 0px 0px 400px;">
+                            <div>
+                                촬영부위
+                                <select style="width: 154px; margin-right: 31px;"></select>
+                                촬영방법
+                                <select style="width: 154px; margin-right: 32px;"></select>
+                                Modality
+                                <select style="width: 154px; margin-right: 4px;"></select>
+                                전달부서<select style="width: 154px;"></select>
+                                <input type="checkbox" style="vertical-align: top; margin: 2.5px -1px 0px 0px;">
+                                없음
+                                <input type="checkbox" style="vertical-align: top; margin: 2.5px -1px 0px 0px;">
+                                L/R
+                                <input type="checkbox" style="vertical-align: top; margin: 2.5px -1px 0px 0px;">
+                                Both
+                                <button style="width: 100px;">저장</button>
+                                <button style="width: 100px;">조영제 표시</button>
+                            </div>
+                            <div>
+                                수가코드
+                                <input type="text" style="width: 150px;">
+                                재료코드(성인)
+                                <input type="text" style="width: 150px;">
+                                재료코드(소아)
+                                <input type="text" style="width: 150px;">
+                                팍스코드
+                                <input type="text" style="width: 150px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-2" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-3" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-4" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-5" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-6" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-7" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-8" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="slipCodeTab-9" class="slipCodeTab-content commonTab"
+                style="border-radius: 3px; height: 833px; overflow: hidden; margin-left: 0px;">
+                <div style="display: flex;">
+                    <div style="flex: 3; width: 100%;">
+                        <div class="borderStyle"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 10%;"></th>
+                                        <th class="border-style" style="width: 70%; font-size: 12px;">슬립명칭</th>
+                                        <th class="border-style" style="width: 20%; font-size: 12px;"></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="hospitalInfoList" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="flex: 7; width: 100%;">
+                        <div style="margin: 5px;">
+                            슬립 명칭
+                            <input type="text" style="width: 500px; height: 16px;">
+                            <button style="width: 100px; vertical-align: top; margin-top: 0px;">저장</button>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <div class="borderStyle"
+                                style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 1%;"></th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                                            <th class="border-style" style="width: 25%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">1회</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">진단</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">병리</th>
+                                            <th class="border-style" style="width: 4%; font-size: 12px;">핵의학</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">검체</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">급여(코드설정)
+                                            </th>
+                                            <th class="border-style" style="width: 15%; font-size: 12px;">메모</th>
+                                            <th class="border-style" style="width: 8%; font-size: 12px;">지원부서</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="hospitalInfoList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> -->
+
+        <div id="basicInfoTab-6" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="display: flex;">
+                <div style="flex: 4; width: 100%;">
+                    <div style="margin: 10px;">
+                        <div>
+                            <input type="text" id="bundleInput1">
+                            <button style="width: 100px;" onclick="분류추가_Click()">추가</button>
+                            <button style="width: 100px;" onclick="분류삭제_Click()">삭제</button>
+                            <img src="../Image/Public/refreshBtn.png" alt="새로고침"
+                                style="vertical-align: top; margin-top: 0px;">
+                        </div>
+                        <div>
+                            <input type="text" style="width: 400px;">
+                            <button style="width: 100px;">찾기</button>
+                            <button style="width: 100px;">지우기</button>
+                        </div>
+                        <div class="borderStyle scrollBar"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 828px;">
+                            <div class="scrollBar"
+                                style="width: 100%; height: 100%; border: none; background-color: white; margin: -1px; overflow: scroll; overflow-x: hidden;">
+                                <table border="1" bgcolor="white" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 40%; font-size: 12px;">명칭</th>
+                                            <th class="border-style" style="width: 40%; font-size: 12px;">순서</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div id="accordionContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex: 6; width: 100%;">
+                    <div style="margin-top: 10px;">
+                        <button style="width: 100px;" onclick="묶음추가_Click()">추가</button>
+                        <button style="width: 100px;" onclick="묶음저장_Click()">저장</button>
+                        <button style="width: 100px;" onclick="cmd묶음삭제_Click()">삭제</button>
+                        공통사용
+                        <select id="bundleSelect1"></select>
+                    </div>
+                    <div style="margin-top: 3px;">
+                        분류
+                        <select id="bundleSelect2">
+                            <option value=""></option>
+                        </select>
+                        명칭
+                        <input type="text" id="bundleInput2">
+                    </div>
+                    <div style="margin-top: 3px;">
+                        코드
+                        <input type="text" id="bundleInput3">
+                        수정정보
+                        <input type="text" id="bundleInput4">
+                    </div>
+                    <div style="margin-top: 3px;">
+                        <button style="width: 100px;">처방코드검색</button>
+                        <button style="width: 100px;">상병코드검색</button>
+                    </div>
+                    <div>
+                        <div class="borderStyle scrollBar"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 300px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 1%;"></th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">순서</th>
+                                        <th class="border-style" style="width: 10%; font-size: 12px;">상병코드</th>
+                                        <th class="border-style" style="width: 15%; font-size: 12px;">명칭</th>
+                                        <th class="border-style" style="width: 15%; font-size: 12px;">영문명칭</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">특정기호</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">불완전코드</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">성별구분</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="diseaseCodeList" style="text-align: center;">
+                                    <tr id="diseaseCodeInput" style="border: none;">
+                                        <th class="border-style" style="width: 3px;">></th>
+                                        <th rowspan="1" colspan="17" class="border-style" style="width: 100%;">
+                                            <input type="text"
+                                                style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                placeholder="코드/명칭(지시오더:'=')입력.'/청구코드'or/명칭'입력(마스터 조회=원외처방만)"
+                                                onclick="DiseaseCodeInputCreate();">
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="borderStyle scrollBar"
+                            style="overflow: scroll; overflow-x: hidden; border: none; margin: 10px; height: 300px;">
+                            <table border="1" bgcolor="white" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="border-style" style="width: 1%;"></th>
+                                        <th class="border-style" style="width: 2%; font-size: 12px;">순서</th>
+                                        <th class="border-style" style="width: 1%; font-size: 12px;">M</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">처방코드</th>
+                                        <th class="border-style" style="width: 15%; font-size: 12px;">명칭</th>
+                                        <th class="border-style" style="width: 2%; font-size: 12px;">1회</th>
+                                        <th class="border-style" style="width: 2%; font-size: 12px;">횟수</th>
+                                        <th class="border-style" style="width: 2%; font-size: 12px;">일수</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">
+                                            용법/검체/부위/방법
+                                        </th>
+                                        <th class="border-style" style="width: 1%; font-size: 12px;">외</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">급여</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">급여(코드설정)
+                                        </th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">특정</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">지원</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">메모</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">보험단가</th>
+                                        <th class="border-style" style="width: 5%; font-size: 12px;">일반단가</th>
+                                        <th class="border-style" style="width: 2%; font-size: 12px;">사용장려</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="treatmentHistoryList" style="text-align: center;">
+                                    <tr id="recipeCodeInput" style="border: none;">
+                                        <th class="border-style" style="width: 3px; border-left: none;">></th>
+                                        <th rowspan="1" colspan="17" class="border-style" style="width: 100%;">
+                                            <input type="text"
+                                                style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                placeholder="코드/명칭(지시오더:'=')입력.'/청구코드'or/명칭'입력(마스터 조회=원외처방만)"
+                                                onclick="RecipeCodeInputCreate();">
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="basicInfoTab-7" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="margin: 10px;">
+                <div>
+                    적용일자
+                    <input type="date" id="hsptlAddDate" name="today">
+                    <button style="width: 100px; margin-right: 50px;" onclick="Cmd_추가_Click()">추가</button>
+                    <button style="width: 100px;" onclick="Cmd_저장_Click()">저장</button>
+                    <button style="width: 100px;" onclick="Cmd_삭제_Click()">삭제</button>
+                </div>
+                <table border="1" bgcolor="white" style="margin-top: 3px;">
+                    <thead id="adtnTableList1">
+                        <tr>
+                            <!-- <th class="border-style" style="width: 156px; font-size: 12px;">적용일자</th> -->
+                        </tr>
+                    </thead>
+                </table>
+                검사등급(자체검사)
+                <table border="1" bgcolor="white">
+                    <thead>
+                        <!-- <tr>
+                            <th class="border-style" style="width: 156px; font-size: 12px;">진단검사</th>
+                        </tr>
+                        <tr>
+                            <th class="border-style" style="width: 156px; font-size: 12px;">병리검사</th>
+                        </tr>
+                        <tr>
+                            <th class="border-style" style="width: 156px; font-size: 12px;">핵의학검사</th>
+                        </tr> -->
+                    </thead>
+                    <tbody id="adtnTableList2" style="text-align: center;">
+                    </tbody>
+                </table>
+                기타
+                <table border="1" bgcolor="white">
+                    <thead>
+                        <!-- <tr>
+                            <th class="border-style" style="width: 156px; font-size: 12px;">병동간호 등급</th>
+                        </tr>
+                        <tr>
+                            <th class="border-style" style="width: 156px; font-size: 12px;">안전관리료 코드</th>
+                        </tr> -->
+                    </thead>
+                    <tbody id="adtnTableList3" style="text-align: center;">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="basicInfoTab-8" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="margin: 10px;">
+                <div>
+                    위탁업체구분
+                    <select style="width: 200px;" id="lue위탁업체구분"></select>
+                    <button style="width: 100px;" id="cmdChk업체구분추가" onclick="Add업체구분Btn()">업체구분 추가</button>
+                    <button style="width: 100px;" onclick="Do삭제_업체구분()">업체구분 삭제</button>
+                </div>
+                <div style="margin-top: 3px;">
+                    <button id="cmdChk적용일자추가" style="width: 100px;" onclick="Add적용일자Btn()">적용일자 추가</button>
+                    <button style="width: 100px;" onclick="Do삭제_적용일자()">적용일자 삭제</button>
+                    <button style="width: 100px;" onclick="Save위탁업체Btn()">저장</button>
+                </div>
+                <div id="lciTxt위탁업체구분" style="display: none;">
+                    <div>
+                        기관구분추가
+                    </div>
+                    <div>
+                        위탁업체구분
+                        <input type="text" id="txt위탁업체구분" readonly>
+                    </div>
+                    <div>
+                        적용일자
+                        <input type="date" name="today" id="txt적용일자">
+                        기관기호
+                        <select id="lue기관기호"></select>
+                    </div>
+                    <div>
+                        검사등급
+                    </div>
+                    <div>
+                        진단
+                        <input type="number" id="txt진단검사등급">
+                        병리
+                        <input type="number" id="txt병리검사등급">
+                        핵의학
+                        <input type="number" id="txt핵의학검사등급">
+                        <button onclick="Do추가()">추가</button>
+                        <button onclick="위탁업체CancelBtn()">취소</button>
+                    </div>
+                </div>
+                <div class="borderStyle scrollBar"
+                    style=" margin-top: 10px; overflow: scroll; overflow-x: hidden; border: none; width: 40%; height: 828px;">
+                    <table border="1" bgcolor="white" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="border-style" style="width: 1%; font-size: 12px;"></th>
+                                <th class="border-style" style="width: 10%; font-size: 12px;">적용일자</th>
+                                <th class="border-style" style="width: 20%; font-size: 12px;">기관기호</th>
+                                <th class="border-style" style="width: 10%; font-size: 12px;">진단검사등급</th>
+                                <th class="border-style" style="width: 10%; font-size: 12px;">병리검사등급</th>
+                                <th class="border-style" style="width: 10%; font-size: 12px;">핵의학검사등급</th>
+                            </tr>
+                        </thead>
+                        <tbody id="consignmentCompanyList" style="text-align: center;">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="basicInfoTab-9" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+            <div style="display: flex;">
+                <div style="flex: 5">
+                    <div style="margin: 5px 0px 0px 5px;">
+                        <button style="width: 100px;" onclick="AddSpecifi()">추가</button>
+                        <button style="width: 100px;" onclick="SaveSpecifi()">저장</button>
+                        <button style="width: 100px;" onclick="DeleteSpecifi()">삭제</button>
+                    </div>
+                    <div class="borderStyle scrollBar"
+                        style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                        <table border="1" bgcolor="white" style="margin: 10px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 30%; font-size: 12px;">명칭</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">순서</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">사용</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">수정자</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">수정일시</th>
+                                </tr>
+                            </thead>
+                            <tbody id="specifiList" style="text-align: center;">
+                                <tr style="border: none;">
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;">
+                                        <input type="text" id="specifiInput"
+                                            style="width: 95%; border: none; background-color: white; text-align: center;"
+                                            onkeyup="if(window.event.keyCode==13){AddSpecifi()}" placeholder="명칭입력">
+                                    </th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="flex: 5">
+                    <div class="borderStyle scrollBar"
+                        style="overflow: scroll; overflow-x: hidden; border: none; margin: -1px; height: 833px;">
+                        <div style="margin: 5px 0px 0px 5px;">
+                            <button style="width: 100px;" onclick="AddptntType()">추가</button>
+                            <button style="width: 100px;" onclick="SaveptntType()">저장</button>
+                            <button style="width: 100px;" onclick="DeleteptntType()">삭제</button>
+                        </div>
+                        <table border="1" bgcolor="white" style="margin: 10px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="border-style" style="width: 1%;"></th>
+                                    <th class="border-style" style="width: 30%; font-size: 12px;">명칭</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">순서</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">사용</th>
+                                    <th class="border-style" style="width: 5%; font-size: 12px;">수정자</th>
+                                    <th class="border-style" style="width: 10%; font-size: 12px;">수정일시</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ptntTypeList" style="text-align: center;">
+                                <tr style="border: none;">
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;">
+                                        <input type="text" id="ptntTypeInput"
+                                            style="width: 95%; border: none; background-color: white; text-align: center;"
+                                            onkeyup="if(window.event.keyCode==13){RecipeCodeBtn(this.value, true); this.value = '';}"
+                                            placeholder="명칭입력">
+                                    </th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                    <th class="border-style" style="font-size: 12px;"></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="basicInfoTab-10" class="basicInfoTab-content commonTab"
+            style="border-radius: 3px; height: 895px; overflow: hidden;">
+        </div>
+    </div>
+
+
+    <script src="EMRClass/Common/Utils/postGetData.js"></script>
+    <script src="EMRClass/Common/VM/코드정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/용법정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/지원정보ViewModel.js"></script>
+
+    <script src="EMRClass/공통업무/Enums/코드종류Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/진료상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/양한방구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/지원구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/추가구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방코드구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방행위구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/상병성별구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/코드마스터RecordRootNodeTypeEnum.js"></script>
+
+    <script src="EMRClass/진료비/C진료비영수증.js"></script>
+
+    <script src="EMRClass/EF/T_DX_INFO.js"></script>
+    <script src="EMRClass/EF/T_HSPTL_INFO_ADTN.js"></script>
+    <script src="EMRClass/EF/T_CODE_DTL.js"></script>
+    <script src="EMRClass/EF/T_BUNDLE.js"></script>
+    <script src="EMRClass/EF/T_BUNDLE_TREAT.js"></script>
+    <script src="EMRClass/EF/T_BUNDLE_DX.js"></script>
+    <script src="EMRClass/EF/Usage.js"></script>
+    <script src="EMRClass/EF/T_CNSGN_ORG.js"></script>
+    <script src="EMRClass/EF/T_SUGA_HSPTL.js"></script>
+    <script src="EMRClass/EF/T_SUGA_HSPTL_MNY.js"></script>
+    <script src="EMRClass/EF/T_HSPTL_INFO.js"></script>
+
+    <script src="EMRClass/공통업무/Constants/처방항목구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/처방항구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/급여적용Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/지원구분Constant.js"></script>
+
+    <script src="EMRClass/Common/Utils/CommonUtils.js"></script>
+    <script src="EMRClass/Common/Utils/MasterCodeInfo.js"></script>
+
+    <script src="prescription.js"></script>
+    <script src="patientInquiry.js"></script>
+    <script src="basicInfo/hospitalCode.js"></script>
+    <script src="basicInfo/treatDXCode.js"></script>
+    <script src="basicInfo/prescriptionCode.js"></script>
+    <script src="basicInfo/hospitalAdditionSetting.js"></script>
+    <script src="basicInfo/patientSpecificity.js"></script>
+    <script src="basicInfo/patientType.js"></script>
+    <script src="basicInfo/consignmentCompany.js"></script>
+    <script src="basicInfo/bundleCode.js"></script>
+    <script src="basicInfo/usageSetting.js"></script>
+    <script src="diseaseCode.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>
