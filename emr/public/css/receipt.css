@@ -1,0 +1,725 @@
+zinput[id="a"] {
+  position: relative;
+  top: 1.5px;
+}
+
+input {
+  border-color: rgb(203, 212, 221);
+  background-color: rgb(245, 248, 251);
+  border-style: solid;
+  border-width: 1px;
+
+  margin-top: 3px;
+  font-weight: normal;
+}
+
+.buttonBorderNone {
+  border: none;
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+.buttonStyle {
+  vertical-align: top;
+  margin-left: -3px;
+  margin-top: 3px;
+  height: 21px;
+  border-radius: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.item {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+
+  overflow: hidden;
+  background-color: white;
+}
+
+div.item {
+  float: left;
+}
+
+div.gridLeft {
+  float: left;
+  width: 520px;
+}
+
+.basicItem {
+  border-width: 1px;
+  border-color: rgb(197, 220, 235);
+  border-style: solid;  
+  border-style: solid;
+  width: 98%;
+  height: 884.5px;
+  border-radius: 0px 5px 5px 0px;
+  margin-top: 2px;
+
+  background-color: white;
+}
+
+.title {
+  padding-left: 10px;
+  padding-bottom: 12px;
+  padding-top: 2px;
+  background-color: white;
+
+  border-radius: 5px 5px 0px 0px;
+  /* cursor: move; */
+}
+
+.paddingTop {
+  padding-top: 5px;
+}
+
+.paddingLeft {
+  padding-left: 5px;
+}
+
+.marginLeft {
+  margin-left: -6px;
+}
+
+.inputLeft {
+  margin-left: 0.2rem;
+}
+
+.dateText {
+  font-size: 12px;
+}
+
+textarea {
+  width: 450px;
+  height: 390px;
+
+  margin-top: 5px;
+  margin-left: 3px;
+  border-radius: 5px;
+  border-style: solid;
+}
+
+textarea.no-border {
+  border-bottom: none;
+}
+
+
+.imageSize {
+  width: 15px;
+  height: 15px;
+
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginBottom {
+  margin-bottom: 100px;
+  margin-right: 100px;
+}
+
+.patientBasicInfo {
+  width: 490px;
+  height: 280px;
+  border-radius: 5px;
+  padding-top: 4px;
+  font-weight: bold;
+
+  background-color: white;
+}
+
+.patientBasicInfoBtn {
+  border: none;
+  background-color: inherit;
+
+}
+
+.patientBasicInfoBtn:hover {
+  border-radius: 2px;
+}
+
+.insuranceInfo {
+
+  width: 490px;
+  height: 200px;
+  border-radius: 5px;
+  margin-top: 4px;
+  font-weight: bold;
+
+}
+
+
+.patientRegistrationInfo {
+  margin-top: 5px;
+  width: 490px;
+  height: 336px;
+}
+
+/* .basicInfoGrid {
+  
+  grid-template-rows: repeat(10, 1.3vmax);
+} */
+
+.patientGrid {
+  display: grid;
+}
+
+.titleBasicInfo {
+  font-weight: normal;
+}
+
+.inputBasicInfo {
+  width: 260px;
+}
+
+.memoTable {
+  width: 492px;
+  margin-top: 3px;
+  border-radius: 1px;
+  border-width: .0px;
+  display: none;
+}
+
+.tableFontSize {
+
+  font-weight: normal;
+}
+
+.memoReadOnly {
+  margin: 0;
+  height: 0;
+  height: 15px;
+  width: 228px;
+  resize: none;
+  border-radius: 0px;
+  border: none;
+}
+
+/* .specificSymbolPopup {
+  width: 600px;
+  height: 680px;
+ 
+  background-color: rgb(240, 240, 240);
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
+}
+
+.insuranceHistoryPopup {
+  width: 1100px;
+  height: 732px;
+
+  background-color: rgb(240, 240, 240);
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
+}
+
+.symbolSearchPopup {
+  width: 400px;
+  height: 500px;
+ 
+  background-color: rgb(240, 240, 240);
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
+} */
+
+.header.active {
+  cursor: move;
+}
+
+.memoGroupbox1 {
+  width: 480px;
+  height: 30px;
+
+  margin-top: 15px;
+  margin-left: 8px;
+
+  border-width: 1px;
+  border-color: rgb(123, 152, 187);
+  border-style: solid;
+  border-radius: 3px;
+
+  background-color: rgb(206, 220, 238);
+}
+
+/* 
+.patientInquiryPopup {
+  width: 810px;
+  height: 510px;  
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
+} */
+
+.patientInfoTable {
+  width: 772px;
+  margin-top: -1px;
+  margin-left: -1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 5px;
+
+  border-color: rgb(230, 234, 239);
+}
+
+.specificSymbolTable {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: -1px;
+  border-radius: 5px;
+  border-color: rgb(230, 234, 239);
+}
+
+.calculationExceptionTable {
+  margin-top: 0px;
+  margin-left: 0px;
+  border-color: rgb(230, 234, 239);
+}
+
+.insuranceCompanyTable {
+  margin-top: -1px;
+  margin-left: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  border-radius: 5px;
+  border-color: rgb(230, 234, 239);
+}
+
+.waitingTable {
+  width: 100%;
+  margin-left: -1px;
+  margin-top: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: rgb(230, 234, 239);
+}
+
+.holdOnTable {
+  width: 100%;
+  margin-left: -1px;
+  margin-top: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: rgb(230, 234, 239);
+}
+
+.visitInfoTable {
+  width: 100%;
+  margin-left: -1px;
+  margin-top: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: rgb(230, 234, 239);
+}
+
+.storageTable {
+  width: 100%;
+  margin-left: -1px;
+  margin-top: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: rgb(230, 234, 239);
+}
+
+.vitalInfoTable {
+  width: 100%;
+  margin-left: -1px;
+  margin-top: -1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: rgb(230, 234, 239);
+}
+
+.insuranceInfo1 {
+  display: block;
+}
+
+.insuranceInfo2 {
+  display: none;
+}
+
+.insuranceInfo3 {
+  display: none;
+}
+
+#horizontalAlignment>div {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+#horizontalAlignment::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/*탭*/
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+/* 보험정보 탭 */
+ul.insuranceInfoTabs {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+
+}
+
+ul.insuranceInfoTabs li {
+  background: none;
+  border-color: rgb(197, 220, 235);
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 4px 5px;
+
+  background-color: rgb(211, 227, 243);
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  font-weight: normal;
+}
+
+ul.insuranceInfoTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+  font-weight: bold;
+}
+
+.insuranceInfoTab-content {
+  display: none;
+
+  background-color: white;
+
+  height: 172px;
+  margin-right: 5px;
+  border-color: rgb(230, 234, 239);
+  font-weight: normal;
+}
+
+.insuranceInfoTab-content.current {
+  display: inherit;
+}
+
+/* 대기환자 탭 */
+ul.waitingPatientTabs {
+  /* margin: 0px;
+  padding: 0px; */
+  margin-top: -11px;
+  margin-bottom: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.waitingPatientTabs li {
+  background: none;
+  /* border-color: rgb(197, 220, 235); */
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 10px 5px;
+
+  /* background-color: rgb(211, 227, 243); */
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  font-size: 10pt;
+  margin-left: -6px;
+}
+
+ul.waitingPatientTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+  font-weight: bold;
+}
+
+.waitingPatientTab-content {
+  display: none;
+  background: white;
+  height: 172px;
+  margin-right: 5px;
+
+
+  border-width: 1px;
+  /* border-color: rgb(197, 220, 235); */
+  border-color: white;
+
+  border-style: solid;
+}
+
+.waitingPatientTab-content.current {
+  display: inherit;
+}
+
+/* 재원환자 탭 */
+ul.jaewonPatientTabs {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.jaewonPatientTabs li {
+  background: none;
+  border-color: rgb(197, 220, 235);
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 4px 5px;
+
+  background-color: rgb(211, 227, 243);
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+}
+
+ul.jaewonPatientTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.jaewonPatientTab-content {
+  display: none;
+  background: white;
+
+  height: 172px;
+  margin-right: 5px;
+
+
+  border-width: 1px;
+  border-color: rgb(230, 234, 239);
+  border-style: solid;
+}
+
+.jaewonPatientTab-content.current {
+  display: inherit;
+}
+
+/* 접수정보 탭 */
+ul.receiptTabs {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+
+}
+
+ul.receiptTabs li {
+  background: none;
+  border-color: rgb(197, 220, 235);
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 4px 5px;
+
+  background-color: rgb(211, 227, 243);
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  font-weight: normal;
+}
+
+ul.receiptTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+  font-weight: bold;
+}
+
+.receiptTab-content {
+  display: none;
+
+  background-color: white;
+
+  height: 172px;
+  margin-right: 5px;
+  border-color: rgb(230, 234, 239);
+  font-weight: normal;
+}
+
+.receiptTab-content.current {
+  display: inherit;
+}
+
+/* 예약정보 탭 */
+ul.reservationTabs {
+  margin-top: -11px;
+  margin-bottom: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.reservationTabs li {
+  background: none;
+  /* border-color: rgb(197, 220, 235); */
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 10px 5px;
+  font-size: 10pt;
+
+  /* background-color: rgb(211, 227, 243); */
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+
+}
+
+ul.reservationTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+  font-weight: bold;
+}
+
+.reservationTab-content {
+  display: none;
+  background: white;
+
+  width: 100%;
+  height: 172px;
+  margin-right: 5px;
+
+
+  border-width: 1px;
+  /* border-color: rgb(230, 234, 239); */
+  border-color: white;
+  border-style: solid;
+}
+
+.reservationTab-content.current {
+  display: inherit;
+}
+
+/* 수납환자 탭 */
+ul.storagePatientTabs {
+  margin-top: -6px;
+  margin-bottom: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.storagePatientTabs li {
+  background: none;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  padding: 10px 5px;
+  font-size: 10pt;
+
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+
+}
+
+ul.storagePatientTabs li.current {
+  background: white;
+  color: #666;
+  border-radius: 5px 5px 0px 0px;
+  font-weight: bold;
+}
+
+.storagePatientTab-content {
+  display: none;
+  background: white;
+
+  width: 100%;
+  height: 172px;
+  margin-right: 5px;
+
+
+  border-width: 1px;
+  border-color: white;
+  border-style: solid;
+}
+
+.storagePatientTab-content.current {
+  display: inherit;
+}
+
+/* 바이탈정보 탭 */
+.vitalInfoTab-content {
+  display: none;
+  background: white;
+
+  height: 172px;
+  margin-right: 5px;
+
+
+  border-width: 1px;
+  border-color: rgb(230, 234, 239);
+  border-style: solid;
+}
+
+.vitalInfoTab-content.current {
+  display: inherit;
+}
+
+.tableToggle {
+  display: block;
+}
+
+.receiptInfoBar {
+  background-image: url('../Image/Receipt/receiptInfoBar.png');
+  background-repeat: repeat-y;
+
+  height: 89.75vh;
+  /* 원하는 높이로 설정하세요 */
+}
+
+.toggleBtn {
+  width: 70px;
+  border-radius: 2px;
+  color: #666;
+
+}
+
+.memoTextarea {
+  width: 418px;
+  height: 80px;
+
+  margin-left: 53px;
+  margin-top: -25px;
+
+  resize: none;
+  border-radius: 2px;
+  border: none;
+
+  display: none;
+}

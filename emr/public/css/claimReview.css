@@ -1,0 +1,102 @@
+ul.toggleTabs1 {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.toggleTabs1 li {
+    background: none;
+    /* border-color: rgb(197, 220, 235); */
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+
+    /* background-color: rgb(211, 227, 243); */
+    background-color: white;
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.toggleTabs1 li.current {
+    background: white;
+    color: #666;
+    border-radius: 5px 5px 0px 0px;
+    font-weight: bold;
+}
+
+.toggleTab1-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    /* border-color: rgb(197, 220, 235); */
+    border-color: white;
+
+    border-style: solid;
+}
+
+.toggleTab1-content.current {
+    display: inherit;
+}
+
+ul.toggleTabs2 {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.toggleTabs2 li {
+    background: none;
+    /* border-color: rgb(197, 220, 235); */
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+
+    /* background-color: rgb(211, 227, 243); */
+    background-color: white;
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.toggleTabs2 li.current {
+    background: white;
+    color: #666;
+    border-radius: 5px 5px 0px 0px;
+    font-weight: bold;
+}
+
+.toggleTab2-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    /* border-color: rgb(197, 220, 235); */
+    border-color: white;
+
+    border-style: solid;
+}
+
+.toggleTab2-content.current {
+    display: inherit;
+}
+
+/* 진료내역 탭 */
+.treatmentHistoryListTable {  
+    margin-left: -1px;
+    margin-top: -1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  
+  }

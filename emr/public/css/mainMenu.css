@@ -1,0 +1,249 @@
+body {
+    background-color: rgb(139, 200, 208);
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+header {
+    text-align: center;
+    padding: 1em;
+    min-width: 800px;
+}
+
+.logoutPopup {
+    display: none;
+}
+
+/* body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(240,240,240);    
+  }  
+
+.main{
+    width: 100%;
+    height: 100%;        
+}
+.top{
+    width: 1750px;
+    padding-top: 20px;
+    padding-left: 120px;
+    display: flex;        
+}
+
+.bottom{
+    float: left;
+}
+
+.favoritesIcon {
+    width: 120px;
+    height: 120px;
+    text-align: left;   
+    background-color: rgb(71,71,71);
+    color: white;    
+    border-style: none;
+    vertical-align: bottom;
+    position: relative;    
+  }
+
+.menuBG{
+    padding-left: 500px;
+    display: block;
+}
+
+.medicalDepartmentBG{
+    padding-left: 500px;
+    display: none;
+}
+
+.medicalSupportBG{
+    padding-left: 500px;
+    display: none;
+}
+
+.judgingDepartmentBG{
+    padding-left: 500px;
+    display: none;
+}
+
+.nursingDepartmentBG{
+    padding-left: 500px;
+    display: none;
+}
+
+.departmentOfHomeAffairsBG{
+    padding-left: 500px;
+    display: none;
+}
+
+.businessSupportBG{
+    padding-left: 500px;
+    display: none;
+}
+.menuIcon {
+    width: 220px;
+    height: 120px;
+    text-align: left;
+    
+    background-color: rgb(71,71,71);
+    color: white;
+    border-style: none;
+  }
+
+.heightBlank
+{
+    margin-top: 10px;
+}
+
+.favoritesImg-size{
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    display: block;   
+    width: 100%;    
+    
+}
+
+.imgFont{
+    position: absolute;
+    transform: translate(-5%,80%);
+    color: white;    
+}
+
+.menuImg-size{
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    display: block;   
+}
+
+.announcement1{
+    width: 900px;
+    height: 520px;
+    margin: 50px;            
+}
+
+.announcement2{
+    width: 862px;
+    margin-top: 50px;   
+    height: 257px; 
+}
+
+.announcement3{
+    width: 862px;
+    margin-top: 5px;   
+    height: 257px; 
+}
+
+.announcementTitle{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;    
+    background-color: rgb(222,222,222);
+}
+.hospitalAnnouncementBG{
+    padding-left: 10px;    
+    overflow: scroll; width : 890px; height: 489px;   
+    overflow-x: hidden;
+    background-color: white;
+    
+}
+
+.departmentAnnouncementBG{
+    padding-left: 10px;    
+    overflow: scroll; width : 98%; height: 88%;   
+    overflow-x: hidden;
+    background-color: white;
+    
+}
+
+.AnnouncementBG{
+    padding-left: 10px;    
+    overflow: scroll; width : 890px; height: 489px;   
+    overflow-x: hidden;
+    background-color: white;
+    
+}
+
+.announcementBlank1{
+    width: 50px;
+    background-color: rgb(242,242,242);
+    text-align :center;
+}
+
+.announcementTitle1{
+    width: 400px;
+    background-color: rgb(242,242,242);
+    text-align :center;
+}
+
+.announcementName1{
+    width: 200px;
+    background-color: rgb(242,242,242);
+    text-align :center;
+}
+
+.announcementDay1{
+    width: 200px;
+    background-color: rgb(242,242,242);
+    text-align :center;
+}
+
+
+.announcementBlank2{
+    width: 50px;
+    background-color: white; 
+    text-align :center;
+}
+.announcementTitle2{
+    width: 400px;
+    background-color: white;
+    text-align :center;
+}
+
+.announcementName2{
+    width: 200px;
+    background-color: white;
+    text-align :center;
+}
+
+.announcementDay2{
+    width: 200px;
+    background-color: white;
+    text-align :center;
+}
+
+.border-style-none{
+    border-style: none;
+}
+
+.border-style{
+    border-color: rgb(180,180,180);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.gridLeft{
+    float:left;
+    
+}
+
+.bottomPadding{
+    padding-left: 10px;    
+}
+
+.bottomRight{
+    margin-left: 1000px;
+    margin-right: 40px;    
+}
+
+.bottomBtn{
+    margin-top: 10px;   
+}
+
+.titleColor{
+    color: blue;
+    font-size:  20px;
+}
+ */
