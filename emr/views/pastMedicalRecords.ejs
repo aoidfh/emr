@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과거진료내역</title>
+    <!-- <link rel="icon" type="images/png" href="../Image/Receipt/receiptInfoTop.png"> -->
+    <link rel="stylesheet" href="../Css/pastMedicalRecords.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="과거진료내역">
+        <div class="titleBackGround">
+            <div class="titleFont">
+                과거진료내역
+            </div>
+        </div>
+        <div style="width: 550px; margin : 5px; ">
+            <select>
+                <option value="양방">양방</option>
+                <option value="한방">한방</option>
+            </select>
+            <select>
+                <option>전체</option>
+            </select>
+            <span class="input_date_box">
+                <input type="date" id="pastDay1">
+                ~
+                <input type="date" id="pastDay2">
+            </span>
+            <img src="../Image/Public/refreshBtn.png" alt="새로고침" class="ImgTrans" onclick="RefreshBtn();" style="vertical-align: top; margin-top: 1px;">
+        </div>
+    </div>
+    <div
+        style="margin: 0px 5px 0px 5px; height: 83%; border-radius: 3px; overflow: scroll; overflow-x: hidden; background: white; border: solid 1px rgb(230, 234, 239);">
+        <div>
+            <table border="1" bgcolor="white" class="pastMedicalRecordsTable" style="margin: -1px; width: 100%;"> 
+                <thead>
+                    <tr>
+                        <th class="border-style" style="width: 3%;"></th>
+                        <th class="border-style" style="width: 10%; font-size: 12px;">코드</th>
+                        <th class="border-style" style="width: 10%; font-size: 12px;">명칭</th>
+                        <th class="border-style" style="width: 5%; font-size: 12px;">1회</th>
+                        <th class="border-style" style="width: 5%; font-size: 12px;">횟수</th>
+                        <th class="border-style" style="width: 5%; font-size: 12px;">일수</th>
+                        <th class="border-style" style="width: 30%; font-size: 12px;">용법/검체/부위/방법</th>
+                        <th class="border-style" style="width: 50%; font-size: 12px;">메모</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="8"">
+                            <div id="accordion-container"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../pastMedicalRecords.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Css/receipt.css?ver=0.02">
+    <link rel="stylesheet" href="../Css/claimReview.css?ver=0.02">
+    <link rel="stylesheet" href="../Css/style.css?ver=0.02">
+    <link rel="stylesheet" href="../Css/common.css?ver=0.02">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script>window.TextEncoder = null;// force installation of the polyfill</script>
+    <script src="https://cdn.jsdelivr.net/gh/inexorabletash/text-encoding/lib/encoding-indexes.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/inexorabletash/text-encoding/lib/encoding.js"></script>
+    <title name="title" id="claimReview">청구심사</title>
+</head>
+
+<body id="body" style="overflow: hidden;">
+    <div class="menu" id="menu" style="margin-top: 1px;">
+        <div>
+            <div class="dropdown">
+                <button class="dropbtn">오류내역</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">청구수신</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">기타청구작업</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">청구집계표</button>
+                <div class="dropdown-content">
+
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">통계</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">상한금 관리</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">기초정보</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">기타</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">차트기록조회</button>
+                <div class="dropdown-content">
+                </div>
+            </div>
+        </div>
+        <div style="height: 1000px;">
+            <div style="display: flex;">
+                <div style="flex: 0.3;">
+                    <ul class="storagePatientTabs" style="list-style-type: none; margin: 0; padding: 0; width: 90px;">
+                        <li class="storagePatientTab-link current" data-tab="storagePatientTab-1" id="acceptStayList"
+                            style="border: none; display: block; margin-bottom: 5px;">청구집계</li>
+                        <li class="storagePatientTab-link" data-tab="storagePatientTab-2" id="acceptCompleteList"
+                            style="border: none; display: block; margin-bottom: 5px;">화면심사</li>
+                        <li class="storagePatientTab-link" data-tab="storagePatientTab-3" id="acceptCompleteList"
+                            style="border: none; display: block; margin-bottom: 5px;">진료비청구</li>
+                        <li class="storagePatientTab-link" data-tab="storagePatientTab-4" id="acceptCompleteList"
+                            style="border: none; display: block; margin-bottom: 5px;">이의신청</li>
+                        <li class="storagePatientTab-link" data-tab="storagePatientTab-5" id="acceptCompleteList"
+                            style="border: none; display: block; margin-bottom: 5px;"
+                            onclick="window.open('https://biz.hira.or.kr/index.do?sso=ok')">
+                            업무포털</li>
+                        <li class="storagePatientTab-link" data-tab="storagePatientTab-6" id="acceptCompleteList"
+                            style="border: none; display: block; margin-bottom: 5px;"
+                            onclick="window.open('https://total.comwel.or.kr/')">
+                            근로복지공단토탈서비스</li>
+                    </ul>
+                </div>
+
+                <div style="flex: 9.7;">
+                    <div id="storagePatientTab-1" class="scrollBar storagePatientTab-content current commonTab"
+                        style="height: 1000px; border-radius: 3px; overflow: scroll; ">
+                        <div style="margin: 10px;">
+                            <div>
+                                청구년월
+                                <input type="month" id="month" onchange="ClickClaimDay()">
+                                <button onclick="ChangeMonthBtn(false)">&lt;</button>
+                                <button onclick="ChangeMonthBtn(true)">&gt;</button>
+
+                                집계기간
+                                <span class="input_date_box">
+                                    <input class="titleFont" id="day1" type="date"
+                                        style="border: none; background-color: white; width: 120px;">
+                                </span>
+                                ~
+                                <span class="input_date_box">
+                                    <input class="titleFont" id="day2" type="date"
+                                        style="border: none; background-color: white; width: 120px;">
+                                </span>
+                                보험유형
+                                <span style="display: none;">
+                                    <select name="" id="lue보험유형"></select>
+                                    <input type="checkbox" id="rdo산재보험종별구분1">
+                                    요양
+                                    <input type="checkbox" id="rdo산재보험종별구분2">
+                                    후유
+                                    <input type="checkbox" id="rdo산재보험종별구분3">
+                                </span>
+                                진폐
+                                청구구분
+                                <select name="" id="lue청구구분">
+                                    <option value="0">원청구</option>
+                                    <option value="2">누락청구</option>
+                                    <option value="99">추가청구</option>
+                                </select>
+                                청구단위
+                                <select name="" id="lue청구단위">
+                                    <option value="0">월청구</option>
+                                    <option value="1">1주</option>
+                                    <option value="2">2주</option>
+                                    <option value="3">3주</option>
+                                    <option value="4">4주</option>
+                                    <option value="5">5주</option>
+                                    <option value="6">6주</option>
+                                </select>
+                                집계구분
+                                전체
+                                <input type="checkbox">
+                                개인
+                                <input type="checkbox">
+                                <input type="text">
+                                (
+                                <input class="inputReadonly" type="text">
+                                )
+                            </div>
+                        </div>
+                        <div style="display: flex; margin: 10px;">
+                            <div class="scrollBar" style="flex: 3; height: 840px; overflow: auto;">
+                                <table border="1" bgcolor="white" class="waitingTable  commonTable"
+                                    style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-style" style="width: 3%;"></th>
+                                            <th class="border-style" style="width: 3%; font-size: 12px;"><input
+                                                    type="checkbox" id="patientListCheckbox"
+                                                    onclick="PatientListCheckBox()">
+                                            </th>
+                                            <th class="border-style" style="width: 10%; font-size: 12px;">차트번호
+                                            </th>
+                                            <th class="border-style" style="width: 10%;font-size: 12px;">환자명
+                                            </th>
+                                            <th class="border-style" style="width: 10%;font-size: 12px;">나이성별
+                                            </th>
+                                            <th class="border-style" style="width: 10%;font-size: 12px;">진료과
+                                            </th>
+                                            <th class="border-style" style="width: 10%;font-size: 12px;">내원일
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="patientList" style="text-align: center;">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="flex:0.1;">
+                            </div>
+                            <div style="flex: 6;">
+                                <div class="scrollBar" style="height: 300px; overflow: auto;">
+                                    <table border="1" bgcolor="white" class="waitingTable commonTable" id="excel청구"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style" style="width: 8%;"></th>
+                                                <th class="border-style" style="width: 3%; font-size: 12px;"><input
+                                                        type="checkbox"></th>
+                                                <th class="border-style" style="width: 10%; font-size: 12px;">청구번호</th>
+                                                <th class="border-style" style="width: 10%;font-size: 12px;">보험구분</th>
+                                                <th class="border-style" style="width: 10%;font-size: 12px;">유형</th>
+                                                <th class="border-style" style="width: 10%;font-size: 12px;">형태</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">구분</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">주</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">상태</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">건수</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">요양급여비용총액
+                                                </th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">본인일부부담금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">상한액초과금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">청구액</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">장애인의료비</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">지원금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액본인부담금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액미만총액</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액미만청구</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">송신일자</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="claimReviewTotal" style="text-align: center;">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="scrollBar" style="margin-top: 10px; height: 500px; overflow: auto;">
+                                    <table border="1" bgcolor="white" class="waitingTable commonTable" id="excel명세"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style" style="width: 5%;"></th>
+                                                <th class="border-style" style="width: 3%; font-size: 12px;"><input
+                                                        type="checkbox"></th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">차트번호</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">환자명</th>
+                                                <th class="border-style" style="width: 8%;font-size: 12px;">주민번호</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">보험구분</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">일자</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">요양급여비용총액
+                                                </th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">본인일부부담금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">상한액초과금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">청구액</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">장애인의료비</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">지원금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액본인부담금</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액미만총액</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액미만본인</th>
+                                                <th class="border-style" style="width: 5%;font-size: 12px;">전액미만청구</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="claimReviewSpecifi" style="text-align: center;">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="margin: 10px; height: 30px;">
+                                    <button style="width: 100px;" onclick="Search청구집계대상자()">대상자 조회</button>
+                                    <button style="width: 100px;" onclick="Cmd청구집계작업_Click()">청구 집계</button>
+                                    <button style="width: 100px;">전체 재계산</button>
+                                    <button>진료확인번호 다시 가져오기</button>
+                                    <div style="float: right;">
+                                        <button style="width: 100px;" onclick="CmdEDI생성_Click()">EDI생성</button>
+                                        <button id="" onclick="Cmd엑셀내보내기_ItemClick('청구서List')">Excel내보내기 청구서리스트</button>
+                                        <button id="" onclick="Cmd엑셀내보내기_ItemClick('명세서List')">Excel내보내기 명세서리스트</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="storagePatientTab-2" class="scrollBar storagePatientTab-content commonTab"
+                        style="height: 1000px; border-radius: 3px; overflow: scroll;">
+                        <div style="display: flex;">
+                            <div style="flex: 2.7;">
+                                <div style="margin: 10px;">
+                                    <div style="margin: 30px;">
+                                        <div>
+                                            청구연월
+                                            <input id="lue청구연월2" type="month" class="w70" onchange="Change청구연월()">
+                                        </div>
+                                        <div>
+                                            보험유형
+                                            <select id="lue보험유형2" class="w70"></select>
+                                        </div>
+                                        <div>
+                                            청구번호
+                                            <select id="lue청구번호2" class="w70" onchange="Change청구번호()"></select>
+                                        </div>
+                                        <div>
+                                            심사상태
+                                            <select id="lue심사상태2" id="" class="w70" onchange="Change심사상태()">
+                                                <option value="99">전체</option>
+                                                <option value="0">대기</option>
+                                                <option value="1">보류</option>
+                                                <option value="2">완료</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="scrollBar" style="height: 750px; width: 500px; overflow: scroll;">
+                                        <table border="1" bgcolor="white" class="waitingTable  commonTable"
+                                            style="width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-style" style="width: 3%;"></th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">차트번호
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">성명
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">보험구분
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">특정
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">산특
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">시작일
+                                                    </th>
+                                                    <th class="border-style" style="width: 10%;font-size: 12px;">종료일
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="grd심사청구대상자" style="text-align: center;">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 0.1;">
+                            </div>
+                            <div style="flex: 5;">
+                                <div>
+                                    명일련번호
+                                    <input class="w10 inputReadonly" type="text" id="txt명일련번호">
+                                    차트번호
+                                    <input class="w10 inputReadonly" type="text" id="txt차트번호">
+                                    환자이름
+                                    <input class="w10 inputReadonly" type="text" id="txt환자이름">
+                                    주민번호
+                                    <input class="w10 inputReadonly" type="text" id="txt주민번호">
+                                    가입자성명
+                                    <input class="w10 inputReadonly" type="text" id="txt가입자성명">
+                                    <button>자격조회</button>
+                                </div>
+                                <div>
+                                    보험가입일자
+                                    <input class="w10 inputReadonly" type="text" id="txt보험가입일자">
+                                    보험유형
+                                    <select class="w10 inputReadonly" name="" id="lue보험유형3"></select>
+                                    보험구분
+                                    <select class="w10 inputReadonly" name="" id="lue보험구분"></select>
+                                    사업장
+                                    <select class="w10 inputReadonly" name="" id="lue사업장"></select>
+                                    중/사고번호
+                                    <input class="w10 inputReadonly" type="text" id="txt증번호사고번호">
+                                </div>
+                                <div>
+                                    자보보증번호
+                                    <input class="w10" type="text" id="txt자보보증번호">
+                                    본인부담률
+                                    <select class="w10" name="" id="lue본인부담률"></select>
+                                    상해외인
+                                    <select class="w10 inputReadonly" name="" id="lue상해외인"></select>
+                                    나이구분
+                                    <select class="w10 inputReadonly" name="" id="lue나이구분"></select>
+                                    정액/정률
+                                    <select class="w10 inputReadonly" name="" id="lue정액정률"></select>
+                                </div>
+                                <div>
+                                    진료결과
+                                    <select class="w10" name="" id="lue진료결과"></select>
+                                    진료과목
+                                    <input class="w10 inputReadonly" type="text" id="txt진료과목">
+                                    의사명
+                                    <input class="w10 inputReadonly" type="text" id="txt의사명">
+                                    면허번호
+                                    <input class="w10 inputReadonly" type="text" id="txt면허번호">
+                                </div>
+                                <div>
+                                    <!-- 도착경로
+                                    <select class="w10" name="" id="lue도착경로"></select> -->
+                                    진료개시일자
+                                    <input class="w10 inputReadonly" type="text" id="txt진료개시일자">
+                                    의료급여대불금
+                                    <input class="w10 inputReadonly" type="text" id="txt의료급여대불금">
+                                </div>
+                                <div>
+                                    진료시작일
+                                    <input class="w10 inputReadonly" type="date" id="txt진료시작일">
+                                    진료종료일
+                                    <input class="w10 inputReadonly" type="date" id="txt진료종료일">
+                                    내(입)원일수
+                                    <input class="w10" type="text" id="txt입원일수">
+                                    요양급여일수
+                                    <input class="w10" type="text" id="txt요양급여일수">
+                                    재해발생
+                                    <input class="w10" type="text" id="txt재해발생">
+                                </div>
+                                <div>
+                                    처방일수
+                                    <input class="w10 inputReadonly" type="text" id="txt처방일수">
+                                    상한초과액
+                                    <input class="w10 inputReadonly" type="text" id="txt상한초과액">
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <div>
+                                        구분코드
+                                        <select class="w10" name="" id="lue청구구분_코드"></select>
+                                        접수번호
+                                        <input class="w10" type="text" id="txt청구구분_접수번호">
+                                        일련번호
+                                        <input class="w10" type="text" id="txt청구구분_일련번호">
+                                    </div>
+                                    <div>
+                                        사유코드
+                                        <select class="w10" name="" id="lue청구구분_사유코드"></select>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <div class="basicInfoPopup borderStyle" id="basicInfoPopup"
+                                        style="min-width: 1000px;">
+                                        <ul class="toggleTabs1" style="width: 100%;">
+                                            <div style="margin-left: 3px;">
+                                                <li class="toggleTab1-link current mousePointer" id=""
+                                                    data-tab="toggleTab1-1" style="margin-left: -6px;">원내진료내역집계</li>
+                                                <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-2"
+                                                    style="margin-left: -6px;">
+                                                    상병내역</li>
+                                                <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-3"
+                                                    style="margin-left: -6px;">
+                                                    원외처방내역</li>
+                                                <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-4"
+                                                    style="margin-left: -6px;">
+                                                    삭제내역</li>
+                                                <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-5"
+                                                    style="margin-left: -6px;">
+                                                    전월심사내역</li>
+                                                <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-6"
+                                                    style="margin-left: -6px;">
+                                                    과거진료내역</li>
+                                                <!-- <li class="toggleTab1-link mousePointer" id="" data-tab="toggleTab1-6"
+                                                    style="margin-left: -6px;">
+                                                    식대현황</li> -->
+                                            </div>
+                                        </ul>
+                                        <div style="margin-right: 10px;">
+                                            <div id="toggleTab1-1"
+                                                class="toggleTab1-content current commonTab toggleTab1Bg"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                <table border="1" bgcolor="white" class="treatmentHistoryListTable"
+                                                    id="treatmentHistoryListTable"
+                                                    style="width: 100%; margin-left: 10px; border: none;">
+                                                    <thead>
+                                                        <tr style="border: none;">
+                                                            <th class="border-style"
+                                                                style="width: 3px; border-left: none;"></th>
+                                                            <th class="border-style"
+                                                                style="width: 30px; font-size: 12px; border: none;">번호
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 110px; font-size: 12px; border: none;">
+                                                                처방코드</th>
+                                                            <th class="border-style"
+                                                                style="width: 110px;font-size: 12px; border: none;">명칭
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">1회
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">횟수
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">일수
+                                                            </th>
+                                                            <!-- <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">
+                                                                용법/검체/부위/방법</th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">외
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">파우더
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">MIX
+                                                            </th> -->
+                                                            <!-- <th class="border-style" style="width: 30px;font-size: 12px; border: none;">포터블</th>
+                                                        <th class="border-style" style="width: 30px;font-size: 12px; border: none;">응급</th> -->
+                                                            <!-- <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">예외
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">메모
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">산정
+                                                            </th> -->
+                                                            <!-- <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">급여
+                                                            </th> -->
+                                                            <th class="border-style"
+                                                                style="width: 110px;font-size: 12px; border: none;">단가
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">처방의
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="treatmentHistoryList" style="text-align: center;">
+                                                        <tr id="recipeCodeInput" style="border: none;">
+                                                            <th class="border-style" style="border-left: none;">></th>
+                                                            <!-- <th rowspan="1" colspan="17" class="border-style" style="width: 100%;"> -->
+                                                            <!-- <input type="text"
+                                                                style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                                placeholder="코드/명칭(지시오더:'=')입력.'/청구코드'or/명칭'입력(마스터 조회=원외처방만)"
+                                                                onclick="RecipeCodeInputCreate();"> -->
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;">
+                                                                <input type="text"
+                                                                    style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                                    onkeyup="if(window.event.keyCode==13){RecipeCodeBtn(this.value, true); this.value = '';}"
+                                                                    oninput="ChangeEng(this)" placeholder="코드입력">
+                                                            </th>
+                                                            <th class="border-style" style="font-size: 12px;">
+                                                                <input type="text"
+                                                                    style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                                    onkeyup="if(window.event.keyCode==13){RecipeCodeBtn(this.value, false); this.value = '';}"
+                                                                    placeholder="명칭입력">
+                                                            </th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <!-- <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                            <th class="border-style" style="font-size: 12px;"></th> -->
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div id="toggleTab1-2" class="toggleTab1-content commonTab"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                <table border="1" bgcolor="white" class="waitingTable"
+                                                    style="width: 100%; margin-top: -1px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="border-style" style="width: 1%; border: none;">
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 25%; border: none; font-size: 12px;">
+                                                                상병코드
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 50%; border: none; font-size: 12px;">
+                                                                상병명칭
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 25%; border: none; font-size: 12px;">
+                                                                상병종류
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="diseaseCodeList" style="text-align: center;">
+                                                        <tr id="diseaseCodeInput" style="border: none;">
+                                                            <th class="border-style" style="width: 1%; border: none;">>
+                                                            </th>
+
+                                                            <th class="border-style" style="font-size: 12px;">
+                                                                <input type="text"
+                                                                    style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                                    oninput="ChangeEng(this)"
+                                                                    onkeyup="if(window.event.keyCode==13){DiseaseCodeBtn(this.value, true); this.value = '';}"
+                                                                    placeholder="코드입력">
+                                                            </th>
+                                                            <th class="border-style" style="font-size: 12px;">
+                                                                <input type="text"
+                                                                    style="width: 95%; border: none; background-color: white; text-align: center;"
+                                                                    onkeyup="if(window.event.keyCode==13){DiseaseCodeBtn(this.value, false); this.value = '';}"
+                                                                    placeholder="명칭입력">
+                                                            </th>
+                                                            <th class="border-style" style="font-size: 12px;"></th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id="toggleTab1-3" class="toggleTab1-content commonTab"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                <table border="1" bgcolor="white" class="treatmentHistoryListTable"
+                                                    id="treatmentHistoryListTable"
+                                                    style="width: 100%; margin-left: 10px; border: none;">
+                                                    <thead>
+                                                        <tr style="border: none;">
+                                                            <th class="border-style"
+                                                                style="width: 3px; border-left: none;"></th>
+                                                            <th class="border-style"
+                                                                style="width: 10px; font-size: 12px; border: none;">
+                                                                처방전발급번호</th>
+                                                            <th class="border-style"
+                                                                style="width: 10px;font-size: 12px; border: none;">코드구분
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">코드
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 50px;font-size: 12px; border: none;">명칭
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">1회
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">횟수
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">처방일수
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">총투약일수
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">
+                                                                본인부담율구분코드
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="treatmentHistoryList2" style="text-align: center;">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id="toggleTab1-4" class="toggleTab1-content commonTab"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                <table border="1" bgcolor="white" class="treatmentHistoryListTable"
+                                                    id="treatmentHistoryListTable"
+                                                    style="width: 100%; margin-left: 10px; border: none;">
+                                                    <thead>
+                                                        <tr style="border: none;">
+                                                            <th class="border-style"
+                                                                style="width: 3px; border-left: none;"></th>
+                                                            <th class="border-style"
+                                                                style="width: 80px; font-size: 12px; border: none;">번호
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px; font-size: 12px; border: none;">
+                                                                처방코드</th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">명칭
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">1회
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">횟수
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">일수
+                                                            </th>
+                                                            <!-- <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">
+                                                                용법/검체/부위/방법</th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">외
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">파우더
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 30px;font-size: 12px; border: none;">MIX
+                                                            </th> -->
+                                                            <!-- <th class="border-style" style="width: 30px;font-size: 12px; border: none;">포터블</th>
+                                    <th class="border-style" style="width: 30px;font-size: 12px; border: none;">응급</th> -->
+                                                            <!-- <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">예외
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">메모
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">산정
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">급여
+                                                            </th> -->
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">단가
+                                                            </th>
+                                                            <th class="border-style"
+                                                                style="width: 100px;font-size: 12px; border: none;">처방의
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="treatmentHistoryList1" style="text-align: center;">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id="toggleTab1-5" class="toggleTab1-content commonTab"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                전월심사내역
+                                                <select id="lue전월심사내역" onchange="ClickOption전월심사내역()"></select>
+                                                <div style="margin-top: 10px;" class="scrollBar">
+                                                    <table border="1" bgcolor="white" class="treatmentHistoryListTable"
+                                                        id="treatmentHistoryListTable"
+                                                        style="width: 100%; margin-left: 10px; border: none;">
+                                                        <thead>
+                                                            <tr style="border: none;">
+                                                                <th class="border-style"
+                                                                    style="width: 80px; font-size: 12px; border: none;">
+                                                                    번호
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 100px; font-size: 12px; border: none;">
+                                                                    처방코드</th>
+                                                                <th class="border-style"
+                                                                    style="width: 500px;font-size: 12px; border: none;">
+                                                                    명칭
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 30px;font-size: 12px; border: none;">
+                                                                    1회
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 30px;font-size: 12px; border: none;">
+                                                                    횟수
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 30px;font-size: 12px; border: none;">
+                                                                    일수
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 100px;font-size: 12px; border: none;">
+                                                                    단가
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 100px;font-size: 12px; border: none;">
+                                                                    시작일
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 100px;font-size: 12px; border: none;">
+                                                                    종료일
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="grd전월심사내역" style="text-align: center;">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div id="toggleTab1-6" class="toggleTab1-content commonTab"
+                                                style="border-radius: 3px; height: 300px; overflow: hidden;">
+                                                <div>
+                                                    <input class="titleFont" id="pastDay1" type="date"
+                                                        name="threeMonthsAgo"
+                                                        style="border: none; background-color: white; width: 120px;">
+                                                    ~
+                                                    <input class="titleFont" id="pastDay2" type="date" name="today"
+                                                        style="border: none; background-color: white; width: 120px;">
+                                                </div>
+                                                <div id="waitingPatientTab-1"
+                                                    class="scrollBar waitingPatientTab-content current commonTab"
+                                                    style="height: 91%;">
+                                                    <table border="1" bgcolor="white" class="waitingTable  commonTable"
+                                                        style="width: 100%;">
+                                                        <tbody id="" style="text-align: center;">
+                                                            <td colspan="10">
+                                                                <div id="accordion-container"></div>
+                                                            </td>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <div class="basicInfoPopup borderStyle" id="basicInfoPopup"
+                                            style="min-width: 1000px;">
+                                            <ul class="toggleTabs2" style="width: 100%;">
+                                                <div style="margin-left: 3px;">
+                                                    <li class="toggleTab2-link current mousePointer" id=""
+                                                        data-tab="toggleTab2-1" style="margin-left: -6px;">
+                                                        명세서특정내역</li>
+                                                    <li class="toggleTab2-link mousePointer" id=""
+                                                        data-tab="toggleTab2-2" style="margin-left: -6px;">
+                                                        진료처방특정내역</li>
+                                                    <li class="toggleTab2-link mousePointer" id=""
+                                                        data-tab="toggleTab2-3" style="margin-left: -6px;">
+                                                        심사참고사항</li>
+
+                                                    <span style="float: right; margin-right: 10px;">
+                                                        <input id="isChecked전체보기" type="checkbox"
+                                                            onclick="Click_전체내역Checkbox()"> 전체보기
+                                                    </span>
+                                                </div>
+                                            </ul>
+                                            <div style="margin-right: 10px;">
+                                                <div id="toggleTab2-1"
+                                                    class="toggleTab2-content current commonTab toggleTab1Bg scrollBar"
+                                                    style="border-radius: 3px; height: 315px; overflow: auto">
+                                                    <table border="1" bgcolor="white" class="commonTable"
+                                                        style="width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="border-style" style="width: 2%;"></th>
+                                                                <th class="border-style"
+                                                                    style="width: 3%; font-size: 12px;">코드
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">명칭
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">특정내역
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">기재형식
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="grd명세서특정내역" style="text-align: center;">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div id="toggleTab2-2" class="toggleTab2-content commonTab scrollBar"
+                                                    style="border-radius: 3px; height: 315px; overflow: auto;">
+                                                    <table border="1" bgcolor="white" class="commonTable"
+                                                        style="width: 100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="border-style" style="width: 2%;"></th>
+                                                                <th class="border-style"
+                                                                    style="width: 3%; font-size: 12px;">코드
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">명칭
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">특정내역
+                                                                </th>
+                                                                <th class="border-style"
+                                                                    style="width: 10%;font-size: 12px;">기재형식
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="grd줄단위특정내역" style="text-align: center;">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div id="toggleTab2-3" class="toggleTab2-content commonTab"
+                                                    style="border-radius: 3px; height: 315px; overflow: hidden;">
+                                                    <div style="display: flex;">
+                                                        <span style="flex: 5;">
+                                                            <div style="margin: 10px;">
+                                                                심사참고[MX999]
+                                                                <span style="float: right; margin-right: 8px;">
+                                                                    <button style="width: 80px;"
+                                                                        onclick="Click심사참고('save')">저장</button>
+                                                                    <button style="width: 80px;"
+                                                                        onclick="Click심사참고('remove')">삭제</button>
+                                                                </span>
+                                                                <textarea class="scrollBar" id="memo심사참고사항"
+                                                                    style="width: 97%; height:  262px; resize: none;"></textarea>
+                                                            </div>
+                                                        </span>
+                                                        <span style="flex: 5;">
+                                                            <div style="margin: 10px;">
+                                                                <textarea style="height:  282px; resize: none;"
+                                                                    readonly></textarea>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="flex: 0.1;">
+                            </div>
+                            <div style="flex: 1.3;">
+                                <div style="margin: 5px;">
+                                    <button style="float: right; margin-right: 5px;" onclick="Click재계산()">전체재계산</button>
+                                </div>
+                                <div class="scrollBar" id="rightTable"
+                                    style="height: 580px; width: 265px; overflow: scroll;">
+                                    <table border="1" bgcolor="white" class="commonTable" style="width: 1000px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    항목</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">급여총액
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">본인부담
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">청구액</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">100/100
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    본인(100미만)</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    청구(100미만)</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    진찰료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    시술및처치료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div class="sticky-col">
+                                        주사료
+                                    </div>
+                                    <table border="1" bgcolor="white" class="commonTable" style="width: 1000px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    행위료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    약품비</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div class="sticky-col">
+                                        투약조제
+                                    </div>
+                                    <table border="1" bgcolor="white" class="commonTable" style="width: 1000px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    약품비</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    행위료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    마취료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    처치및수술료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    검사료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    한약_첨약
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    영상진단료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    방사선치료료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    치료재료대
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    재활및물리치료료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    정신요법료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    전혈및혈액성분제제료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    CT진단료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    MRI진단료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    초음파진단료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    검진료</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    특수재료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    제증명료
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    기타</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    병원특정수가
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    장애인의료비
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    정액65세이상
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    정액수가요양병원
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    포괄수가진료비
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    정액수가정신과
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+
+                                            </tr>
+                                            <tr class="sticky-row">
+                                                <th class="border-style sticky-col"
+                                                    style="width: 350px; font-size: 12px;">
+                                                    합계</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;"></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <table border="1" bgcolor="white" id="vgrd합계">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    요양급여총액
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계1"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    청구액
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계2"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    본인부담액
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계3"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    100/100미만 총액
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계4"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    100/100미만
+                                                    본인부담액</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계5"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    100/100미만
+                                                    청구액</th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계6"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">비급여
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계7"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    장애인지원금
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계8"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">지원금
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계9"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    상환초과금
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계10"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">대불금
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계11"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    산재총액(I란)
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계12"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    산재총액(II란)
+                                                </th>
+                                                <th class="border-style" style="width: 350px; font-size: 12px;">
+                                                    <div id="vgrd합계13"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="storagePatientTab-3" class="scrollBar storagePatientTab-content commonTab"
+                        style="height: 1000px; border-radius: 3px; overflow: scroll;">
+                        <div style="display: flex; justify-content: center; align-items: center; margin-top: 400px; font-weight: bold; font-size: 15px;"
+                            style="height: 1000px; border-radius: 3px; overflow: scroll;">
+                            외부 프로그램을 실행해 주세요.
+                        </div>
+                    </div>
+                    <div id="storagePatientTab-4" class="scrollBar storagePatientTab-content commonTab"
+                        style="height: 1000px; border-radius: 3px; overflow: scroll;">
+                        <div style="display: flex; justify-content: center; align-items: center; margin-top: 400px; font-weight: bold; font-size: 15px;"
+                            style="height: 1000px; border-radius: 3px; overflow: scroll;">
+                            외부 프로그램을 실행해 주세요.
+                        </div>
+                    </div>                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id='dochi_context_menu' class="custom-context-menu" style="display: none;">
+        <div id="clrvRightMenu1">
+            <div onclick="ClickRight특정내역('save')">특정내역 저장</div>
+            <div onclick="ClickRight특정내역('remove')">특정내역 삭제</div>
+        </div>
+        <div id="clrvRightMenu2">
+            <div onclick="ClickRight상병내역()">상병 삭제</div>
+        </div>
+        <div id="clrvRightMenu3">
+            <div onclick="ClickRight처방삭제(1)">처방내역 삭제</div>
+        </div>
+        <div id="clrvRightMenu4">
+            <div onclick="ClickRight처방삭제(0)">처방내역 삭제 취소</div>
+        </div>
+    </div>
+
+    <script src="EMRClass/공통업무/Constants/MonoSystemConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/CdSpcfSmblConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/특정기호구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/상해외인Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/본인부담여부Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/보험종별구분_급여Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/의약분업예외구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/급여적용Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/수납구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/처방항목구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/처방항구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/특정코드Constants.js"></script>
+    <script src="EMRClass/공통업무/Constants/RcptItemConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/CommonConstants.js"></script>
+    <script src="EMRClass/공통업무/Constants/보험종별구분_공통Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/ErrorMessageConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/진료과목Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/산정코드0801Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/지원구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/항번호Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/산정코드AA진찰료1Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/처방코드정보필드Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/환자메모구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/보험종별구분_공단Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/CdSpclCodeConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/청구진료코드구분양방Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/청구진료형태Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/청구정액정률구분Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/진료결과Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/명세서서식번호Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/청구구분코드Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/보험구분002Constant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_DTL_FieldConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_DX_FieldConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_PRSC_FieldConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_SMRY_FieldConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_SPCL_FieldConstant.js"></script>
+    <script src="EMRClass/공통업무/Constants/T_CHRG_TREAT_FieldConstant.js"></script>
+
+    <script src="EMRClass/공통업무/Enums/청구구분코드Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/청구외래입원Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/병원유형Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/환자평가표종류Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/산정특례Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/코드종류Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방수정구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방코드종류Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방행위구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/검진구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/가산정보구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/지원상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/계산유형Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/수납유형입원Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/CommonYesOrNoEnum.js"></script>
+    <script src="EMRClass/공통업무/Enums/근무상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/직분구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/진료비영수증종류Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/검사구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/병원종별Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/상병성별구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/픽업상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/나이등급Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/투여방법Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방코드구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/야간공휴구분산정코드Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처방등록구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/메모상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/ProgressNote구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/할인코드042Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/영수증마감Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/선택의료신청Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/보험청구여부Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/수납상태구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/초재진구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/정액정율Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/나이구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/지원구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/진료상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/현재진료중Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/보험구분002Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/외래입원구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/HsptlInfo수납_100원미만절사Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/양한방구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/퇴원사인Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/청구화면심사상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/처리방코드구분Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/특정내역발생단위Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/청구상태Enum.js"></script>
+    <script src="EMRClass/공통업무/Enums/청구DataTypeEnum.js"></script>
+
+    <script src="EMRClass/Common/Utils/CommonUtils.js"></script>
+    <script src="EMRClass/Common/Utils/postGetData.js"></script>
+    <script src="EMRClass/Common/Utils/Common접수Util.js"></script>
+
+    <script src="EMRClass/Common/VM/보험정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/자동코드ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/진료비공통ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/접수정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/코드정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/지원정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/사용자정보ViewModel.js"></script>
+    <script src="EMRClass/Common/VM/특정내역VM.js"></script>
+
+    <script src="EMRClass/Common/Entity/사용자정보.js"></script>
+    <script src="EMRClass/Common/Entity/C원내조제일수.js"></script>
+    <script src="EMRClass/Common/Entity/진료상병.js"></script>
+    <script src="EMRClass/Common/Entity/C대기환자정보.js"></script>
+    <script src="EMRClass/Common/Entity/진료처방.js"></script>
+    <script src="EMRClass/Common/Entity/청구Field.js"></script>
+    <script src="EMRClass/Common/Entity/청구Data_청구서.js"></script>
+    <script src="EMRClass/Common/Entity/청구Data_명세일반.js"></script>
+    <script src="EMRClass/Common/Entity/청구Data_명세상병.js"></script>
+    <script src="EMRClass/Common/Entity/청구Data_명세진료.js"></script>
+
+    <script src="EMRClass/진료비/C의약품수기료.js"></script>
+    <script src="EMRClass/진료비/C조제투여정보.js"></script>
+    <script src="EMRClass/진료비/C진료비영수증.js"></script>
+    <script src="EMRClass/진료비/C진료비항목.js"></script>
+    <script src="EMRClass/진료비/C영수증기본정보.js"></script>
+    <script src="EMRClass/진료비/C요양급여산정율.js"></script>
+    <script src="EMRClass/진료비/C본인부담산정식.js"></script>
+    <script src="EMRClass/진료비/진료비영수증Manager.js"></script>
+
+    <script src="EMRClass/Common/BL/심사BL.js"></script>
+    <script src="EMRClass/Common/BL/CommonBL.js"></script>
+
+    <script src="EMRClass/EF/T_CHRG_SMRY.js"></script>
+    <script src="EMRClass/EF/T_NOTE_TYPE.js"></script>
+    <script src="EMRClass/EF/T_TREAT_DX.js"></script>
+    <script src="EMRClass/EF/T_APPNTMNT.js"></script>
+    <script src="EMRClass/EF/T_TREAT_NOTE.js"></script>
+    <script src="EMRClass/EF/T_CHART_MEMO.js"></script>
+    <script src="EMRClass/EF/T_TREAT.js"></script>
+    <script src="EMRClass/EF/T_ACCEPT.js"></script>
+    <script src="EMRClass/EF/T_CHART_INS.js"></script>
+    <script src="EMRClass/EF/T_CHART.js"></script>
+    <script src="EMRClass/EF/T_CHRG_DTL.js"></script>
+    <script src="EMRClass/EF/T_CHRG_TREAT.js"></script>
+    <script src="EMRClass/EF/T_CHRG_SPCL.js"></script>
+    <!-- <script src="EMRClass/EF/T_CHRG_DX_PRE.js"></script> -->
+    <script src="EMRClass/EF/T_CHRG_SPCL_PRE.js"></script>
+    <script src="EMRClass/EF/T_CHRG_DX.js"></script>
+    <script src="EMRClass/EF/T_CHRG_PRSC.js"></script>
+
+    <script src="getDB.js"></script>
+    <script src="claimReview.js"></script>
+    <script src="claimReviewWorker.js"></script>
+    <script src="pastMedicalRecords.js"></script>
+    <script src="basicInfo//prescriptionCode.js"></script>
+    <script src="diseaseCode.js"></script>
+</body>
+
+</html>
