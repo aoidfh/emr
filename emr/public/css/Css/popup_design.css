@@ -1,0 +1,462 @@
+body#body{
+    background-color: var(--bg-blue);
+}
+.basicInfoTabBg{
+    /* background-color: var(--bg-blue); */
+    background-color: white;
+    border-radius: 3px;
+    padding: 3px;
+    box-sizing: border-box;
+    overflow: auto;
+    height: calc(100vh - 35px);
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+.borderStyle{
+    background-color: transparent;
+}
+.basicInfoTabContentWrap{
+    width: 1910px;
+    height: 865px;
+    display: flex;
+    margin: 0 auto;
+    background-color : white;
+}
+.basicInfoTabContent{
+    display:flex;
+    align-items:center;
+    justify-content:space-evenly;
+    flex-wrap:wrap;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+}
+.basicInfoTabContent .half{
+    width: 49.5%;
+    /* border: 1px solid var(--line-blue); */
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--white);
+    height: 100%;
+    border-radius: 15px;;
+}
+.basicInfoTabContent .half .title{
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    
+}
+
+.basicInfoTabContent .half .contentIn{
+    height: calc(100% - 31px);
+    display: flex;
+    flex-wrap: wrap;
+}
+.contentInTopWrap{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+#basicInfoTab1CodeSearchForm{
+    width: 100%;
+}
+.contentInTopWrap .item{
+    border: 1px solid var(--line-blue);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.contentInTopWrap .item.item1{
+    width: 13%;
+}
+.contentInTopWrap .item.item1 .CmRadio{
+    width: 35%;
+    box-sizing: border-box;
+}
+.contentInTopWrap .item.item2{
+    width: 25%;
+}
+.contentInTopWrap .item.item2 .CmRadio{
+    width: 35%;
+    box-sizing: border-box;
+}
+.contentInTopWrap .item.item3{
+    border:none;
+    width: 19%;
+}
+.contentInTopWrap .item.item4{
+    width: 6%;
+    border: none;
+}
+.contentInTopWrap .item.item5{
+    width: 38%;
+    justify-content: flex-start;
+    border: none;
+}
+.contentInTopWrap .item.item5 .CmInputBox{
+    margin-right: 10px;
+}
+.contentInTopWrap .item.item5 .CmInputBox:nth-child(1){
+    margin-left: 5px;
+}
+.contentInTopWrap .item.item6{
+    border: none;
+}
+
+.contentInSection{
+    box-sizing: border-box;
+    /* border: 1px solid var(--line-blue); */
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.contentInSection > .contentInTitle{
+    position: relative;
+    font-size: 16px;
+    color: var(--gray-dark);
+    font-weight: bold;
+    padding-left: 10px;
+    margin-bottom: 3px;
+}
+.contentInSection > .contentInTitle::before{
+    content: "";
+    border-radius: 100%;
+    width: 5px;
+    height: 5px;
+    background-color: var(--btn-blue);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 공통 테이블 디자인 */
+.contentInTableWrap{
+    width: 100%;
+    overflow: auto;
+    display: flex;
+}
+.contentInTableWrap .line{
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--line-blue);
+    height: auto;
+    background-color: transparent;
+    cursor: pointer;
+}
+.contentInTableWrap .line .line_cell{
+    box-sizing: border-box;
+    border-right: 1px solid var(--line-blue);
+    height: 18px;
+    font-family: 'dotum';
+    padding: 1px;
+}
+
+.contentInTableWrap .line .line_cell:last-child{
+    border-right: none;
+}
+.contentInTableWrap .line.head .line_cell{
+    font-weight: bold;
+}
+.contentInTableWrap .line .line_cell.on{
+    background-color: var(--blue) !important;
+    color: var(--white) !important;
+}
+.contentInTableWrap .line .bg_blue{
+    background-color: var(--bg-blue);
+    width: 100%;
+}
+
+/* 마스터코드 테이블 */
+#MasterCodeTable .line .line_cell.code{
+    width: 137px;
+}
+#MasterCodeTable .line .line_cell.code_name{
+    min-width: 300px;
+}
+
+#MasterCodeTable .line .line_cell.code_drop{
+    width: 27px;
+    min-width: 27px;
+}
+#MasterCodeTable .line .line_cell.drop_name{
+    width: 110px;
+    min-width: 110px;
+}
+#MasterCodeTable .line .line_cell.content_blank{
+    width: 46px;
+}
+#MasterCodeTable .line .line_cell.content_code{
+    width: 91px;
+}
+#MasterCodeTable .line.line_code_content.hide{
+    display: none;
+}
+/* #MasterCodeTable .line.line_code_content:hover .line_cell{
+    background-color: var(--blue);
+    color: var(--white);
+} */
+#MasterCodeTable .line_content{
+    height: 400px;
+}
+.drop_icon{
+    font-size: 15px !important;
+    margin: 0 auto;
+}
+.drop_icon.rotate{
+    transform: rotate(180deg);
+}
+.line_content{
+    overflow: auto;
+    height: 300px;
+    min-width: 911px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    box-sizing: border-box;
+}
+.line_content_table{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    box-sizing: border-box;
+}
+
+/* 병원코드 Table */
+#HospitalCodeTable .line .line_cell.idx{
+    width: 60px;
+}
+#HospitalCodeTable .line .line_cell.idx.check::before{
+    content:"▶";
+    font-size: 9px;
+}
+#HospitalCodeTable .line .line_cell.code{
+    width: 90px;
+}
+#HospitalCodeTable .line .line_cell.code_name{
+    min-width: 670px;
+}
+/* #HospitalCodeTable .line.line_code:hover .line_cell{
+    background-color: var(--blue);
+    color: var(--white);
+} */
+#HospitalCodeTable .line_content{
+    height: 270px;
+}
+
+
+/* 코드정보 상단 */
+.contentInCodeInfoTop{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+}
+.contentInCodeInfoTop .item{
+    margin-right: 5px;
+    width: 110px;
+}
+.codeInfoTopBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+}
+.codeInfoTopBtn .material-icons{
+    font-size: 18px;
+    margin-right: 5px;
+}
+.contentInSection.codeInfoItem{
+    width: 50%;
+    height: 290px;
+    /* margin: 0 0.5%; */
+    margin-bottom: 0;
+}
+.contentInFormWrap{
+    width: 100%;
+}
+.formLine{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2.5px 0;
+}
+.formLine .formTitle{
+    width: 110px;
+    text-align: center;
+    font-weight: bold;
+}
+.formLine .formContent{
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.formLine .formContent.short{
+    width: 120px;
+    box-sizing: border-box;
+}
+.formContentFlex{
+    display: flex;
+    align-items: center;
+}
+.formContentTable{
+    border: 1px solid var(--line-blue);
+    border-bottom: none;
+    width: 100%;
+}
+.formContentTable .cell_line{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line-blue);
+}
+.formContentTable .cell_line.head{
+    font-weight: bold;
+}
+.formContentTable .cell_line.btn-blue{
+    background-color: var(--btn-blue);
+}
+.formContentTable .cell_line .cell{
+    width: 33.3%;
+    border-right: 1px solid var(--line-blue);
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formContentTable .cell_line .cell:nth-last-child(1){
+    border-right: none;
+}
+.formContentRight{
+    box-sizing: border-box;
+    padding-left: 5px;
+}
+.formContentRight .CmRadio{
+    margin-right: 10px;
+}
+.formLine .formBtn{
+    border: 1px solid var(--line-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.formLine .formBtn .material-icons{
+    font-size: 17px;
+    
+}
+.formLine .formImgPrevWrap{
+    width: 100%;
+    height: 50px;
+    border: 1px solid var(--line-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formLine .formImgDelBtn{
+    border: 1px solid var(--line-blue);
+    display: flex;
+    align-items: center;
+    height: 50px;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--line-blue);
+}
+.formLine.etc_radio_wrap{
+    border: 1px solid var(--line-blue);
+    padding: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.formLine.etc_radio_wrap .etc_radio_wrap{
+    width: 50%;
+    margin: 1px 0;
+    font-size: 10px;
+
+}
+.contentCodeInfoUnitPrice{
+    height: 200px;
+}
+.contentInfoUnitTop{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.contentInfoUnitTop .unitTopContent{
+    margin-right: 5px;
+}
+.contentInfoUnitTop .unitTopTitle{
+    width: 70px;
+    text-align: center;
+    font-weight: bold;
+}
+.contentInfoUnitTop .unitTopContent{
+    width: 120px;
+}
+.contentInfoUnitTop .unitTopBtnWrap{
+    width: 80px;
+    margin-right: 5px;
+}
+
+/* 단가 TABLE */
+#PriceUnitTable .line_cell{
+    width: 77px
+}
+#PriceUnitTable .line_cell.idx{
+    width: 47px;
+}
+#PriceUnitTable .line_content{
+    height: 112px;
+}
+#PriceUnitTable .line_cell select.priceUnitSelect{
+    width: 100%;
+    height: 100%;
+    background-color: var(--white);
+    padding: 0;
+    text-align: center;
+    font-family: 'dotum';
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    background:url('../Image/Public/SelectOpion_white.png') no-repeat 100% 50%;
+}
+#PriceUnitTable .line_cell select.priceUnitSelect.on{
+    color: var(--white);
+}
+#PriceUnitTable .line_cell select.priceUnitSelect.on option{
+    color: var(--gray-dark);
+}
+
+/*  SWEET ALERT*/
+.sweet-alert button{
+    width: 100px;
+    padding: 0 !important;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+
+
+
+

@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(139, 200, 208);
+  overflow: hidden;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.loginInput {
+  width: 214px;
+  height: 35px;
+  position: relative;
+
+  /* background-color: black; */
+  border-radius: 5px;
+  border: 1px rgb(179, 207, 234) solid;
+  background-color: rgb(232, 240, 254, );
+}
+
+input:focus {
+  outline: none;
+  background-color: rgb(232, 240, 254, 1);
+
+}
+
+header {  
+  text-align: center;
+  padding: 1em;
+}

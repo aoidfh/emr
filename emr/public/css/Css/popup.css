@@ -1,0 +1,485 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    height: 100%;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+textarea{
+    font-size: 9pt;
+    font-weight: normal;
+   
+    color: rgb(67, 75, 82);
+  
+  
+    border-color: rgb(203, 212, 221);
+    border-style: solid;
+    border-width: 1px;
+    border: none;
+
+    overflow-y: scroll;
+  
+    background-color: rgb(245, 248, 251);     
+
+    resize: none;
+}
+
+textarea.no-border {
+    border-bottom: none;
+}
+
+/* 팝업 창 */
+.symbolSearchPopup {
+    width: 100%;
+    height: 500px;
+    min-width: 400px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.storageInstructionsPopup {
+    width: 100%;
+    height: 500px;
+    min-width: 400px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+
+.menuPatientInquiryPopup {
+    width: 100%;
+    height: 100%;
+}
+
+.businessPopup {
+    width: 100%;
+    height: 100%;
+}
+
+.specificSymbolPopup {
+    width: 100%;
+    height: 680px;
+
+    min-width: 700px;
+}
+
+.patientInquiryPopup {
+    width: 100%;
+    height: 100%;
+
+    margin: -1px 0px 0px -1px;
+
+    min-width: 810px;
+}
+
+.insuranceHistoryPopup {
+    width: 100%;
+    height: 100%;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.introducerPopup {
+    width: 450px;
+    height: 110px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.insuranceTypePopup {
+    width: 100%;
+    height: 100%;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.scanPopup {
+    width: 100%;
+    height: 100%;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.memoPopup {
+    width: 100%;
+    height: 500px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.waitingPatientInfoPopup {
+    width: 520px;
+    height: 335px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+.specificDetailsPopup {
+    width: 100%;
+    height: 500px;
+
+    min-width: 1210px;
+
+    margin: -1px 0px 0px -1px;
+}
+
+/* 팝업 테이블 */
+.patientInfoPopupTable {
+    width: 772px;
+    margin-top: -1px;
+    margin-left: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.insuranceTypePopupTable {
+    width: 772px;
+    margin-top: -1px;
+    margin-left: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.insuranceHistoryTable {
+    width: 100%;
+    margin-top: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: -1px;
+}
+
+
+.deadlineMgrPopupTable {
+    width: 100%;
+    margin-top: -1px;
+    margin-left: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+/* 마감관리 탭 */
+ul.deadlineMgrTabs {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.deadlineMgrTabs li {
+    background: none;
+    border-color: rgb(135, 161, 193);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 4px 5px;
+
+    background-color: rgb(174, 196, 222);
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: none;
+}
+
+ul.deadlineMgrTabs li.current {
+    background: white;
+    color: #222;
+    border-radius: 5px 5px 0px 0px;
+    font-weight: bold;
+}
+
+.deadlineMgrTab-content {
+    display: none;
+    background: white;
+
+    height: 172px;
+    margin-right: 5px;
+
+
+    border-width: 1px;
+
+    border-style: solid;
+}
+
+.deadlineMgrTab-content.current {
+    display: inherit;
+}
+
+.recipeReservationTable {
+    width: 100%;
+    margin-left: -1px;
+    margin-top: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    border-color: rgb(230, 234, 239);
+}
+
+.recipeReservationBtn {
+    width: 99%;
+    height: 99%;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+ul.hospitalMGRTabs {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.hospitalMGRTabs li {
+    background: none;
+    border-color: rgb(197, 220, 235);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+    background-color: rgb(211, 227, 243);
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.hospitalMGRTabs li.current {
+    background: white;
+    color: #222;
+    font-weight: bold;
+}
+
+.hospitalMGRTab-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    border-color: rgb(197, 220, 235);
+
+    border-style: solid;
+}
+
+.hospitalMGRTab-content.current {
+    display: inherit;
+}
+
+#hospitalInfoList tr {
+    height: 50px;
+}
+
+ul.basicInfoTabs {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.basicInfoTabs li {
+    background: none;
+    border-color: rgb(197, 220, 235);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+    background-color: rgb(211, 227, 243);
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.basicInfoTabs li.current {
+    background: white;
+    color: #222;
+    font-weight: bold;
+}
+
+.basicInfoTab-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    border-color: rgb(197, 220, 235);
+
+    border-style: solid;
+}
+
+.basicInfoTab-content.current {
+    display: inherit;
+}
+
+#basicInfoList tr {
+    height: 50px;
+}
+
+ul.slipCodeTabs {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.slipCodeTabs li {
+    background: none;
+    border-color: rgb(197, 220, 235);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+    background-color: rgb(211, 227, 243);
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.slipCodeTabs li.current {
+    background: white;
+    color: #222;
+    font-weight: bold;
+}
+
+.slipCodeTab-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    border-color: rgb(197, 220, 235);
+
+    border-style: solid;
+}
+
+.slipCodeTab-content.current {
+    display: inherit;
+}
+
+ul.codeTabs {
+    margin-top: -6px;
+    margin-bottom: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul.codeTabs li {
+    background: none;
+    border-color: rgb(197, 220, 235);
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 10px 5px;
+    background-color: rgb(211, 227, 243);
+    border-bottom: none;
+    font-size: 10pt;
+    margin-left: -6px;
+}
+
+ul.codeTabs li.current {
+    background: white;
+    color: #222;
+    font-weight: bold;
+}
+
+.codeTab-content {
+    display: none;
+    background: white;
+    height: 172px;
+
+    border-width: 1px;
+    border-color: rgb(197, 220, 235);
+
+    border-style: solid;
+}
+
+.codeTab-content.current {
+    display: inherit;
+}
+
+#codeList tr {
+    height: 50px;
+}
+
+.accordion-item {
+    margin-top: -15px;
+    width: 100%;
+}
+
+.accordion-button {
+    background-color: rgb(211, 227, 243);
+    color: rgb(67, 75, 82);
+    border: none;
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.accordion-button:hover {
+    background-color: rgb(197, 220, 235);
+}
+
+.accordion::after {
+    content: '\002B';
+    float: right;
+}
+
+.accordion.active::after {
+    content: '\2212';
+    float: right;
+}
+
+.accordion-collapse {
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.accordion-body {
+    display: block;
+    width: 100%;
+    border: none;
+    text-align: left;
+    margin-left: 10px;
+}
+
+/* 활성화된 아코디언 스타일 */
+.accordion-button.active {
+    background-color: rgb(197, 220, 235);
+}
+
+.accordion-collapse.active {
+    display: block;
+    width: 100%;
+}
+
+.accordion-content {
+    display: none;
+    width: 100%;
+}
+
+.accordion-content.active {
+    display: block;
+    margin-top: -15px;
+    width: 100%;
+    background-color: white;
+}
+
+.checkboxPos {
+    vertical-align: top;
+    margin-top: 1px;
+}
+
+.hCodeBtn{
+    width: 130px;
+    height: 30px;
+}
+
+.tableInput{
+    width: 100%;
+    border: none;
+    border-radius: 0px;
+}   

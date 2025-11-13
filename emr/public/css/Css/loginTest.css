@@ -1,0 +1,64 @@
+/* .main {
+    width: 250px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+  }
+
+  .loginBox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .logo {
+    margin-top: 0px;
+    margin-bottom: 40px;
+  }
+  
+  #login {
+    width: 100%;
+    background-color: skyblue;
+    border-color: transparent;
+    color: white;
+  }
+  
+  .account {
+    display: block;
+    margin-bottom: 3px;
+    padding: 3px;
+    border: 1px solid lightgray;
+
+  }
+
+  .loginBtn {
+    display: block;
+    margin-top: 15px;
+    padding: px;
+    border: 1px solid lightgray;
+  }
+  */
+
+  body{
+    background-color: rgb(111,166,188);
+  }
+.loginInput {
+  width: 214px;
+  height: 35px;
+  position: relative;
+
+  /* background-color: black; */  
+  border-radius: 5px;
+  border: 1px rgb(179,207,234) solid;
+  background-color: rgb(232, 240, 254, );
+}
+input:focus {
+  outline:none;
+  background-color: rgb(232, 240, 254, 1);
+ 
+}
