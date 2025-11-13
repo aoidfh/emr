@@ -54,8 +54,9 @@
 | 구분       | 기술 스택                    |
 |------------|------------------------------|
 | Frontend   | HTML, CSS, JavaScript        |
-| Backend    | 없음 (Express 미사용, 직접 DB 연동) |
+| Backend    | 서버 개발은 미참여 (AWS 서버 환경 내 DB 직접 연동) |
 | Database   | MySQL                        |
+| 인프라     | AWS (회사 제공 환경 내 테스트 및 개발 경험) |
 | 기타       | Live Server (로컬 환경 테스트용) |
 
 ---
